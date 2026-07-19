@@ -1,0 +1,139 @@
+// ---------------------------------------------------------
+// Режим 2 — Мультивибір по ролах (Quiz)
+// ---------------------------------------------------------
+
+var QuizState = {
+  phase: 'setup',      // 'setup' | 'question' | 'summary'
+  showCaption: true,
+  order: [],
+  index: 0,
+  correctCount: 0,
+  answered: false,
+  currentOptions: [],
+  selectedId: null,
+};
+
+function quizStart(showCaption){
+  QuizState.showCaption = showCaption;
+  QuizState.order = shuffle(ROLLS.map((_, i) => i));
+  QuizState.index = 0;
+  QuizState.correctCount = 0;
+  QuizState.phase = 'question';
+  QuizState.answered = false;
+}
+
+function quizBuildQuestion(){
+  const roll = ROLLS[QuizState.order[QuizState.index]];
+  const distractors = pickDistractors(roll, ROLLS, 3);
+  const options = shuffle([roll, ...distractors]);
+  QuizState.currentOptions = options;
+  QuizState.answered = false;
+  QuizState.selectedId = null;
+  return roll;
+}
+
+function renderQuizView(root){
+  clear(root);
+  const view = el('div', { class: 'view' });
+
+  if (QuizState.phase === 'setup'){
+    view.appendChild(el('h2', { class: 'view-title' }, 'Quiz: rozpoznaj rolkę'));
+    view.appendChild(el('p', { class: 'view-sub' }, 'Zobaczysz zdjęcie i wybierzesz właściwą nazwę spośród 4 opcji.'));
+
+    let captionChoice = true;
+    const setupCard = el('div', { class: 'setup-card' }, [
+      el('h3', {}, 'Pokazywać skład pod zdjęciem?'),
+      el('p', { style: 'font-size:13px;color:var(--ink-soft);' }, 'To ustawienie obowiązuje przez całą sesję quizu.'),
+    ]);
+    const seg = el('div', { class: 'segmented' });
+    const yesBtn = el('button', { class: 'is-active' }, 'Tak, pokazuj skład');
+    const noBtn = el('button', {}, 'Nie, tylko zdjęcie');
+    yesBtn.addEventListener('click', () => { captionChoice = true; yesBtn.classList.add('is-active'); noBtn.classList.remove('is-active'); });
+    noBtn.addEventListener('click', () => { captionChoice = false; noBtn.classList.add('is-active'); yesBtn.classList.remove('is-active'); });
+    seg.appendChild(yesBtn); seg.appendChild(noBtn);
+    setupCard.appendChild(seg);
+    view.appendChild(setupCard);
+
+    view.appendChild(el('button', {
+      class: 'btn btn-primary btn-block',
+      onClick: () => { quizStart(captionChoice); renderQuizView(root); }
+    }, 'Zacznij quiz'));
+
+    root.appendChild(view);
+    return;
+  }
+
+  if (QuizState.phase === 'summary'){
+    const total = ROLLS.length;
+    view.appendChild(el('div', { class: 'result-card' }, [
+      el('h2', {}, 'Koniec quizu'),
+      el('div', { class: 'result-score' }, QuizState.correctCount + ' / ' + total),
+      el('p', { style: 'color:var(--ink-soft);font-size:14px;' }, 'poprawnych odpowiedzi'),
+      el('button', { class: 'btn btn-primary', onClick: () => { QuizState.phase = 'setup'; renderQuizView(root); } }, 'Zagraj jeszcze raz'),
+    ]));
+    root.appendChild(view);
+    return;
+  }
+
+  // phase === 'question'
+  if (!QuizState.currentOptions.length && !QuizState.answered) quizBuildQuestion();
+  const roll = ROLLS[QuizState.order[QuizState.index]];
+
+  view.appendChild(el('div', { class: 'score-strip' }, [
+    el('span', {}, (QuizState.index + 1) + ' / ' + ROLLS.length),
+    el('div', { class: 'progress-track' }, el('div', { class: 'progress-fill', style: 'width:' + (100 * QuizState.index / ROLLS.length) + '%' })),
+    el('span', {}, 'Wynik: ' + QuizState.correctCount),
+  ]));
+
+  const photoWrap = el('div', { class: 'quiz-photo-wrap' });
+  const img = el('img', { src: roll.image, alt: 'Zdjęcie rolki', loading: 'lazy' });
+  img.addEventListener('error', () => {
+    photoWrap.classList.add('img-missing');
+    img.remove();
+    photoWrap.appendChild(el('span', { class: 'img-missing__label' }, 'Zdjęcie niedostępne'));
+  });
+  photoWrap.appendChild(img);
+  view.appendChild(photoWrap);
+
+  if (QuizState.showCaption){
+    view.appendChild(el('div', { class: 'quiz-caption' }, roll.ingredients.join(', ')));
+  }
+
+  const optionsWrap = el('div', { class: 'quiz-options' });
+  QuizState.currentOptions.forEach(opt => {
+    const isCorrect = opt.id === roll.id;
+    const btn = el('button', { class: 'option-btn' }, opt.name);
+    btn.disabled = QuizState.answered;
+    if (QuizState.answered){
+      if (isCorrect) btn.classList.add('is-correct');
+      else if (opt.id === QuizState.selectedId) btn.classList.add('is-wrong');
+    }
+    btn.addEventListener('click', () => {
+      if (QuizState.answered) return;
+      QuizState.answered = true;
+      QuizState.selectedId = opt.id;
+      if (isCorrect) QuizState.correctCount++;
+      renderQuizView(root);
+    });
+    optionsWrap.appendChild(btn);
+  });
+  view.appendChild(optionsWrap);
+
+  if (QuizState.answered){
+    const isLast = QuizState.index >= ROLLS.length - 1;
+    view.appendChild(el('button', {
+      class: 'btn btn-primary btn-block',
+      onClick: () => {
+        if (isLast){
+          QuizState.phase = 'summary';
+        } else {
+          QuizState.index++;
+          quizBuildQuestion();
+        }
+        renderQuizView(root);
+      }
+    }, isLast ? 'Zobacz wynik' : 'Dalej'));
+  }
+
+  root.appendChild(view);
+}
