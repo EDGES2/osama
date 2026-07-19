@@ -1,93 +1,36 @@
-# Trener Sushi — тренажер меню (роли + сети)
+# Trener Sushi
 
-Статичний сайт (HTML/CSS/JS, без бекенду) для запам'ятовування меню суші.
-Мова інтерфейсу сайту — **польська** (як і меню). Цей README — українською,
-для того, хто розгортає й підтримує сайт.
+Statyczna aplikacja (bez build stepu) do nauki menu rolek i zestawów
+sushi: fiszki, quiz rozpoznawania po zdjęciu, quiz składu zestawu,
+wyszukiwarka z fuzzy-matchingiem.
 
-## Що всередині
+## Struktura
 
 ```
-index.html          — точка входу
-css/style.css        — стилі (дизайн-токени на початку файлу)
-js/data.js            — дані меню (87 ролів + 24 сети), згенеровано з тексту меню
-js/fuzzy.js            — нечіткий пошук (n-грами + коефіцієнт Дайса)
-js/similarity.js        — підбір дистракторів/кандидатів за тегами схожості
-js/render.js              — спільні функції побудови DOM
-js/cards.js, quiz.js,
-js/setquiz.js, search.js  — логіка трьох режимів + пошуку
-js/app.js                  — перемикання вкладок, старт застосунку
-images/               — сюди кладете фото (порожньо, див. images/README.md)
-data-pipeline/         — python-скрипти, якими згенеровано js/data.js
+index.html
+css/style.css
+js/            — data.js (dane menu) + logika UI, ładowane w kolejności z index.html
+images/        — zdjęcia .webp pozycji menu (patrz images/README.txt)
+data-pipeline/ — skrypty generujące js/data.js z surowego tekstu menu
 ```
 
-## 1. Додайте фото
+## Uruchomienie lokalnie
 
-У `images/` зараз порожньо. Список усіх 111 очікуваних імен файлів (1:1,
-без перейменування) — у `images/README.md`. Просто скопіюйте туди ваші
-`.webp`-файли з тими самими іменами.
-
-Поки фото немає — сайт повністю робочий: замість зображення показується
-акуратна заглушка з назвою страви, нічого не ламається.
-
-## 2. Перевірка локально
-
-Ніякого білда не потрібно. Найпростіше — підняти локальний сервер (відкриття
-через `file://` іноді блокує завантаження шрифтів/зображень у деяких браузерах):
+Otwarcie `index.html` bezpośrednio przez `file://` częściowo działa,
+ale próbkowanie koloru tła zdjęcia (`sampleEdgeColor` w `js/render.js`)
+wymaga serwera HTTP (canvas jest "tainted" przy `file://`). Najprościej:
 
 ```bash
-cd sushi-trener
 python3 -m http.server 8000
-# відкрити http://localhost:8000
 ```
 
-## 3. Деплой на GitHub Pages
+i otwórz `http://localhost:8000/`.
 
-1. Створіть репозиторій, закиньте вміст цієї папки в корінь (або в `docs/`).
-2. Settings → Pages → Source: гілка `main`, папка `/` (або `/docs`).
-3. Готово — сайт з'явиться на `https://<user>.github.io/<repo>/`.
+## Dodawanie nowych pozycji menu
 
-## 4. Якщо зміниться меню
+Patrz [`data-pipeline/README.md`](data-pipeline/README.md).
 
-Не редагуйте `js/data.js` вручну — він згенерований. Замість цього:
+## Hosting
 
-1. Онови `data-pipeline/original_menu.txt` (людський опис) і
-   `data-pipeline/exact_filenames.txt` (реальні імена файлів фото) —
-   рядок-в-рядок, як було.
-2. Запусти:
-   ```bash
-   cd data-pipeline
-   bash regenerate.sh
-   ```
-   Це перегенерує `rolls_clean.json` → `sets_clean.json` → `js/data.js`.
-
-## Відомі нюанси даних
-
-- **6 позицій у 4 сетах не мають власної фото-картки** в меню з 87 ролів
-  (тобто немає окремого фото саме цього варіанту): "Cheese roll z pieczonym
-  łososiem" (у Zestaw Fusion і Zestaw Letni), "Tuńczyk Tar Tar" (Zestaw
-  Sunrise Dragon), і три "pieczone maki" (Zestaw zapiekanych maków). Сайт
-  показує їх назвою в описі сету, але вони не беруть участі в Режимі 3
-  (чекбокс-квіз), бо для них нема картки/фото. Якщо у вас є фото саме цих
-  варіантів — додайте їх як нові роли в `original_menu.txt` +
-  `exact_filenames.txt` і перегенеруйте дані.
-- Тег відео-схожості (Режими 2 і 3) підбираються автоматично з видимих
-  топінгів (без урахування соусу — унагі/спайсі майже на половині позицій,
-  тому не є розрізняльною ознакою). За потреби скоригуйте `TAG_RULES` у
-  `data-pipeline/create_data.py`.
-- Опис "Zestaw Tokio" (єдиний сет без складу в імені файлу) вписано вручну в
-  `data-pipeline/parse_sets.py` (константа `TOKIO_TEXT`) — на основі тексту,
-  який ви надали окремо.
-
-## Режими сайту
-
-1. **Fiszki** — флешкартки: фото → перевертання показує назву+склад (роли)
-   або назву+перелік ролів (сети). Перемикач Rolki/Zestawy, фільтр "тільки з
-   доважуванням соусу", перемішування.
-2. **Quiz** — мультивибір: фото рола → 4 варіанти назви (1 правильний +
-   3 підібрані за візуальною схожістю топінгу). На початку сесії — вибір,
-   чи показувати склад під фото.
-3. **Skład zestawu** — фото+назва сету → чекбоксами вибрати, які роли туди
-   входять, серед реальних + кількох "схожих пасток".
-
-Плюс іконка пошуку у шапці — швидкий нечіткий пошук за назвою (толерантний
-до одруків), з детальним переглядом (для сетів — акордеон з ролями).
+Repo jest gotowe pod GitHub Pages "as is" — czysty HTML/CSS/JS, bez
+kroku budowania. Wystarczy branch + `/ (root)` jako źródło Pages.
