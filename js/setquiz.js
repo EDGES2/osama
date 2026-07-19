@@ -7,8 +7,9 @@ var SetQuizState = {
   index: 0,
   checked: false,
   selected: new Set(),
-  candidateData: null, // { members, traps, candidates, unmatchedExtras }
+  candidateData: null, // { members, traps, candidates, unmatchedExtras, clusters }
   correctSets: 0,
+  hardMode: false, // true = candidate list shows only names, no thumbnails
 };
 
 function setQuizBuildQuestion(){
@@ -34,6 +35,14 @@ function renderSetQuizView(root){
 
   const set = SETS[SetQuizState.order[SetQuizState.index]];
   const { members, candidates, unmatchedExtras } = SetQuizState.candidateData;
+
+  const modeRow = el('div', { class: 'chip-row' });
+  const hardChip = el('button', {
+    class: 'chip' + (SetQuizState.hardMode ? ' is-on' : ''),
+    onClick: () => { SetQuizState.hardMode = !SetQuizState.hardMode; renderSetQuizView(root); }
+  }, SetQuizState.hardMode ? 'Tryb trudny: same nazwy' : 'Tryb łatwy: nazwy ze zdjęciami');
+  modeRow.appendChild(hardChip);
+  view.appendChild(modeRow);
 
   view.appendChild(el('div', { class: 'score-strip' }, [
     el('span', {}, (SetQuizState.index + 1) + ' / ' + SETS.length),
@@ -77,9 +86,11 @@ function renderSetQuizView(root){
         }
       }),
     ]);
-    const thumb = el('img', { class: 'candidate-thumb', src: roll.image, alt: '', loading: 'lazy' });
-    thumb.addEventListener('error', () => { thumb.style.visibility = 'hidden'; });
-    row.appendChild(thumb);
+    if (!SetQuizState.hardMode){
+      const thumb = el('img', { class: 'candidate-thumb', src: roll.image, alt: '', loading: 'lazy' });
+      thumb.addEventListener('error', () => { thumb.style.visibility = 'hidden'; });
+      row.appendChild(thumb);
+    }
     row.appendChild(el('span', { class: 'candidate-name' }, roll.name));
     list.appendChild(el('li', {}, row));
   });
