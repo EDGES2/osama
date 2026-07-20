@@ -118,7 +118,7 @@ function renderQuizView(root){
   view.appendChild(photoWrap);
 
   if (QuizState.showCaption){
-    view.appendChild(el('div', { class: 'quiz-caption' }, roll.ingredients.join(', ')));
+    view.appendChild(el('div', { class: 'quiz-caption' }, roll.ingredients.map(i => i.name).join(', ')));
   }
 
   const optionsWrap = el('div', { class: 'quiz-options' });

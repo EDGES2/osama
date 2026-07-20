@@ -322,10 +322,12 @@ a{ color:inherit; }
   display:flex; flex-direction:column; gap:6px;
 }
 .ingredient-list li{
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
   font-size:15px; padding:8px 10px;
   background:var(--rice-2);
   border-radius:8px;
 }
+.ingredient-list__name{ flex:1; min-width:0; }
 .roll-ref-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
 .roll-ref-list li{
   display:flex; align-items:center; justify-content:space-between; gap:8px;

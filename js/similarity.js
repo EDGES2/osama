@@ -30,7 +30,7 @@ const _ingredientTagsCache = new Map();
 function tagsFromIngredients(item){
   if (_ingredientTagsCache.has(item)) return _ingredientTagsCache.get(item);
   const tags = (item.ingredients || [])
-    .map(i => searchNormalize(i))
+    .map(i => searchNormalize(i.name))
     .filter(Boolean);
   _ingredientTagsCache.set(item, tags);
   return tags;

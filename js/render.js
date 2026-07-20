@@ -112,8 +112,23 @@ function buildStamp(){
   return s;
 }
 
+/**
+ * `ingredients` is data.js's { name, grams, qty }[] -- grams/qty are
+ * null until that item has been weighed (see data.js header comment).
+ * Known values render as a small mono tag after the name (e.g.
+ * "48 g · ×3"); unweighed ingredients just show the bare name, same
+ * as before this field existed.
+ */
 function buildIngredientList(ingredients){
-  return el('ul', { class: 'ingredient-list' }, ingredients.map(i => el('li', {}, i)));
+  return el('ul', { class: 'ingredient-list' }, ingredients.map(ing => {
+    const metaParts = [];
+    if (ing.grams != null) metaParts.push(ing.grams + ' g');
+    if (ing.qty != null) metaParts.push('×' + ing.qty);
+    return el('li', {}, [
+      el('span', { class: 'ingredient-list__name' }, ing.name),
+      metaParts.length ? el('span', { class: 'portion-tag' }, metaParts.join(' · ')) : null,
+    ]);
+  }));
 }
 
 /**
@@ -186,6 +201,9 @@ function buildVersusToggleBtn(itemId, onToggle, opts){
  * doesn't re-render -- it's a one-shot element tree like the rest of
  * render.js). */
 function renderRollDetailBlock(roll, onVersusChange){
+  const metaParts = [];
+  if (roll.count > 1) metaParts.push(roll.count + ' szt');
+  if (roll.weightGrams != null) metaParts.push('~' + roll.weightGrams + ' g');
   return el('div', { class: 'detail-head detail-head--roll' }, [
     buildPhotoBox(roll.image, roll.name, { ticket: formatTicket(roll.id), stamp: roll.needsSauce }),
     el('div', { class: 'detail-body' }, [
@@ -193,7 +211,7 @@ function renderRollDetailBlock(roll, onVersusChange){
         el('h2', { class: 'detail-name' }, roll.name),
         buildVersusToggleBtn(roll.id, onVersusChange, { className: 'detail-versus-btn', name: roll.name }),
       ]),
-      roll.count > 1 ? el('p', { class: 'flip-card__meta' }, roll.count + ' szt') : null,
+      metaParts.length ? el('p', { class: 'flip-card__meta' }, metaParts.join(' · ')) : null,
       buildIngredientList(roll.ingredients),
     ]),
   ]);
@@ -216,6 +234,7 @@ function renderSetDetailBlock(set, onVersusChange){
       buildPhotoBox(roll.image, roll.name, { boxClass: 'detail-photo', stamp: roll.needsSauce }),
       el('div', {}, [
         el('h3', { style: 'font-family:var(--font-body);font-weight:600;font-size:15px;margin-bottom:8px;' }, roll.name),
+        roll.weightGrams != null ? el('p', { class: 'flip-card__meta' }, '~' + roll.weightGrams + ' g') : null,
         buildIngredientList(roll.ingredients),
       ]),
     ]);

@@ -114,12 +114,12 @@ function getIngredientIndex(){
   ROLLS.forEach(roll => {
     const seenKeys = new Set();
     roll.ingredients.forEach(ing => {
-      const key = ingredientBucketKey(ingredientCanonicalKey(ing));
+      const key = ingredientBucketKey(ingredientCanonicalKey(ing.name));
       if (!key || seenKeys.has(key)) return;
       seenKeys.add(key);
       const g = ensureGroup(key);
       g.rollIds.add(roll.id);
-      g.labelCounts.set(ing, (g.labelCounts.get(ing) || 0) + 1);
+      g.labelCounts.set(ing.name, (g.labelCounts.get(ing.name) || 0) + 1);
     });
   });
 
@@ -129,7 +129,7 @@ function getIngredientIndex(){
       const roll = item.rollId ? rollById(item.rollId) : null;
       if (!roll) return;
       roll.ingredients.forEach(ing => {
-        const key = ingredientBucketKey(ingredientCanonicalKey(ing));
+        const key = ingredientBucketKey(ingredientCanonicalKey(ing.name));
         if (key) setKeys.add(key);
       });
     });

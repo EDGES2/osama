@@ -83,10 +83,10 @@ function buildVersusRows(rolls){
   rolls.forEach(roll => {
     const seen = new Set();
     (roll.ingredients || []).forEach(ing => {
-      const key = versusIngredientKey(ing);
+      const key = versusIngredientKey(ing.name);
       if (!key || seen.has(key)) return;
       seen.add(key);
-      if (!map.has(key)) map.set(key, { label: ing, presentIds: new Set() });
+      if (!map.has(key)) map.set(key, { label: ing.name, presentIds: new Set() });
       map.get(key).presentIds.add(roll.id);
     });
   });

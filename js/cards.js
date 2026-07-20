@@ -101,7 +101,10 @@ function renderCardsView(root){
   const back = el('div', { class: 'flip-card__face flip-card__face--back' });
   back.appendChild(el('div', { class: 'flip-card__name' }, item.name));
   if (CardsState.deck === 'rolls'){
-    if (item.count > 1) back.appendChild(el('div', { class: 'flip-card__meta' }, item.count + ' szt'));
+    const metaParts = [];
+    if (item.count > 1) metaParts.push(item.count + ' szt');
+    if (item.weightGrams != null) metaParts.push('~' + item.weightGrams + ' g');
+    if (metaParts.length) back.appendChild(el('div', { class: 'flip-card__meta' }, metaParts.join(' · ')));
     back.appendChild(buildIngredientList(item.ingredients));
   } else {
     if (item.count) back.appendChild(el('div', { class: 'flip-card__meta' }, item.count + ' szt w zestawie'));
