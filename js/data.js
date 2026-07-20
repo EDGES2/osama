@@ -1371,7 +1371,68 @@ var ROLLS = [
     ],
     "needsSauce": false,
     "image": "images/r087.webp"
-  }
+  },
+  {
+      "id": "r088",
+      "name": "Sushi Burger z krewetką",
+      "count": 1,
+      "ingredients": [
+          "Nori",
+          "Ryż",
+          "Krewetki nobashi",
+          "Tempura",
+          "Pańko",
+          "Serek Philadelphia",
+          "Awokado",
+          "Tobiko",
+          "Tostowy ser",
+          "Panko",
+          "tempura",
+          "Spicy majo",
+          "Sos unagi"
+      ],
+      "needsSauce": true,
+      "image": "images/r088.jpg"
+    },
+    {
+      "id": "r089",
+      "name": "Sushi Burger z surimi",
+      "count": 1,
+      "ingredients": [
+          "Nori",
+          "Ryż",
+          "Serek Philadelphia",
+          "Awokado",
+          "Surimi",
+          "Majonez japonski",
+          "Łosoś surowy",
+          "Panko",
+          "tempura",
+          "Sos unagi"
+      ],
+      "needsSauce": true,
+      "image": "images/r089.jpg"
+    },
+    {
+      "id": "r090",
+      "name": "Sushi Burger z węgorzem",
+      "count": 1,
+      "ingredients": [
+          "Nori",
+          "Ryż",
+          "Serek Philadelphia",
+          "Awokado",
+          "Spicy majo",
+          "Węgorz",
+          "Tostowy ser",
+          "Panko",
+          "tempura",
+          "Sezam biały",
+          "Sos unagi"
+      ],
+      "needsSauce": true,
+      "image": "images/r090.jpg"
+    }
 ];
 
 var SETS = [

@@ -81,7 +81,7 @@ var ROLL_GROUPS = [
     key: 'sushi_burger',
     label: 'Burgery',
     note: 'Не rolItem, а пресований "burger" -- геть інший силует (круглий, товстий, без характерних кружечків макі).',
-    ids: ['r006', 'r007', 'r008', 'r009', 'r010'],
+    ids: ['r006', 'r007', 'r008', 'r009', 'r010', 'r088', 'r089', 'r090'],
   },
   {
     key: 'gunkan_battleship',
