@@ -1374,7 +1374,7 @@ var ROLLS = [
   },
   {
       "id": "r088",
-      "name": "Sushi Burger z krewetką",
+      "name": "Burger z krewetką",
       "count": 1,
       "ingredients": [
           "Nori",
@@ -1396,7 +1396,7 @@ var ROLLS = [
     },
     {
       "id": "r089",
-      "name": "Sushi Burger z surimi",
+      "name": "Burger z surimi",
       "count": 1,
       "ingredients": [
           "Nori",
@@ -1415,7 +1415,7 @@ var ROLLS = [
     },
     {
       "id": "r090",
-      "name": "Sushi Burger z węgorzem",
+      "name": "Burger z węgorzem",
       "count": 1,
       "ingredients": [
           "Nori",
