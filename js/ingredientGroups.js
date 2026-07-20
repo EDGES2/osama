@@ -42,6 +42,7 @@ var INGREDIENT_GROUPS = [
       'krewetka tygrysia',     // Krewetka tygrysia
       'krewetka tempurze w',   // Krewetka w tempurze
       'krewetek tempurze w',   // Krewetek w tempurze (odmiana zapisu w danych źródłowych)
+      'krewetki nobashi'
     ],
   },
   {
