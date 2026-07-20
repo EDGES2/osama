@@ -1452,6 +1452,11 @@ var SETS = [
         "portion": "full"
       },
       {
+        "name": "Nigiri z wędzonym łososiem",
+        "rollId": "r049",
+        "portion": "full"
+      },
+      {
         "name": "Maki z łososiem",
         "rollId": "r039",
         "portion": "full"
