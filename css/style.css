@@ -696,6 +696,34 @@ a{ color:inherit; }
   color:var(--ink-soft); text-align:center;
   max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
 }
+/* Rolka wspólna dla >=2 aktywnych zestawów (isSharedVersusRoll w versus.js)
+   -- zielone tło "karty" ciągnie się przez CAŁĄ pionową kolumnę: od komórki
+   nagłówka (zdjęcie + nazwa + pochodzenie) w dół przez każdy wiersz ciała
+   tabeli (patrz .versus-cell.is-shared niżej), więc czyta się to jak jedna
+   spójna karta na całą wysokość, a nie tylko podświetlony nagłówek. Zdjęcie
+   samo w sobie zostaje nietknięte -- zielone jest tylko tło wokół niego.
+   Brak zaokrąglenia u góry -- karta zaczyna się od razu pod paskiem grupy
+   (.versus-group-head), który sam już ma zaokrąglone tylko górne rogi,
+   więc dodatkowe zaokrąglenie tutaj tworzyłoby dwa ścierające się łuki
+   zamiast płynnego przejścia; u dołu tabeli też bez zaokrągleń, z tego
+   samego powodu -- prosty prostokąt na całą wysokość. Brak obwódki: przy
+   kilkunastu wierszach osobny box-shadow na każdej komórce dawałby stos
+   powtarzających się ramek zamiast jednej gładkiej karty, więc samo tło
+   koloru wystarcza. */
+.versus-col-head.is-shared{
+  background:#E4EFD4;
+}
+/* Legenda pod chipami "Z zestawów", tłumacząca zielone tło karty powyżej --
+   mały kolorowy kwadracik + ten sam opis co samo zjawisko. */
+.versus-shared-hint{
+  display:flex; align-items:center; gap:6px;
+  font-family:var(--font-mono); font-size:11.5px; color:var(--ink-soft);
+  margin:6px 0 4px;
+}
+.versus-shared-hint__swatch{
+  display:inline-block; width:12px; height:12px; border-radius:3px; flex:none;
+  background:#E4EFD4; box-shadow:inset 0 0 0 2px var(--wasabi);
+}
 /* Chip row above the table listing sets currently represented (via
    their rolls) in the comparison -- each removable chip strips just
    that set's origin tags, see removeSetOriginFromVersus. */
@@ -718,6 +746,13 @@ a{ color:inherit; }
 .versus-cell.is-no{ color:var(--ink-soft); opacity:.5; }
 .versus-table tbody tr:nth-child(even) .versus-cell{ background:var(--rice-2); }
 .versus-table tbody tr:nth-child(even) .versus-row-label{ background:var(--rice-2); }
+/* Ciąg dalszy karty rolki wspólnej (patrz .versus-col-head.is-shared
+   powyżej) -- to samo zielone tło na każdym wierszu tej kolumny, więc
+   .versus-cell.is-shared musi wygrać z naprzemiennym tłem zebry powyżej
+   (stąd identyczna specyficzność selektora + kolejność PO nim w pliku).
+   Bez zaokrągleń -- prosty prostokąt na całą wysokość tabeli, tak samo
+   płaski u dołu jak u góry (patrz komentarz przy .versus-col-head.is-shared). */
+.versus-table tbody tr .versus-cell.is-shared{ background:#E4EFD4; }
 
 /* ---------------------------------------------------------
    Versus group picker -- add rolls to the comparison right inside

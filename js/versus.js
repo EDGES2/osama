@@ -208,6 +208,20 @@ function versusOriginLabel(rollId){
     .join(', ');
 }
 
+/** Rolka jest "wspólna" dla porównania, gdy pochodzi jednocześnie z więcej
+ * niż jednego z aktywnych zestawów (VersusState.setOrigins[rollId].size >= 2)
+ * -- czyli oba (lub więcej) dodane "Z zestawów" zestawy faktycznie się
+ * pokrywają na tej konkretnej rolce. Rolki dodane ręcznie (brak wpisu w
+ * setOrigins) albo należące tylko do jednego aktywnego zestawu nie liczą
+ * się jako wspólne, nawet jeśli są wizualnie bardzo podobne -- to pole mówi
+ * wyłącznie o faktycznej przynależności do zestawów, nie o podobieństwie z
+ * groups.js. Używane do zielonej nakładki na zdjęciu kolumny w
+ * renderVersusView. */
+function isSharedVersusRoll(rollId){
+  const origins = VersusState.setOrigins[rollId];
+  return !!origins && origins.size >= 2;
+}
+
 /** Усі зестави, з яких зараз щось є в порівнянні -- для чіпів "Z
  * zestawów" над таблицею (кожен чіп прибирає свій зестав одним тапом
  * через removeSetOriginFromVersus). */
@@ -368,6 +382,12 @@ function renderVersusView(root){
   const clusters = groupedVersusRolls();
   const orderedRolls = clusters.flatMap(c => c.rolls);
   const rows = buildVersusRows(orderedRolls);
+  // Kolumny (rolki), które trafiają do porównania jako "karta" na całą
+  // wysokość tabeli -- patrz isSharedVersusRoll. Liczone raz i używane i
+  // przy nagłówku kolumny (poniżej), i przy każdej komórce ciała tabeli,
+  // żeby cała pionowa kolumna miała jednolite zielone tło, a nie tylko jej
+  // górna część.
+  const sharedRollIds = new Set(orderedRolls.filter(r => isSharedVersusRoll(r.id)).map(r => r.id));
 
   view.appendChild(el('div', { class: 'versus-toolbar' }, [
     el('span', {}, orderedRolls.length + (orderedRolls.length === 1 ? ' pozycja w porównaniu' : ' pozycji w porównaniu')),
@@ -393,6 +413,16 @@ function renderVersusView(root){
       originRow.appendChild(buildRemovableChip(set.name, () => { removeSetOriginFromVersus(set.id); renderVersusView(root); }));
     });
     view.appendChild(originRow);
+
+    // Legenda do zielonej nakładki poniżej -- pokazujemy tylko wtedy, gdy
+    // faktycznie jest co tłumaczyć: 2+ zestawy w porównaniu I przynajmniej
+    // jedna rolka, która się między nimi powtarza (isSharedVersusRoll).
+    if (activeOrigins.length > 1 && sharedRollIds.size){
+      view.appendChild(el('p', { class: 'versus-shared-hint' }, [
+        el('span', { class: 'versus-shared-hint__swatch', 'aria-hidden': 'true' }),
+        'zielone tło karty = rolka wspólna dla kilku wybranych zestawów',
+      ]));
+    }
   }
 
   const scrollWrap = el('div', { class: 'versus-scroll' });
@@ -410,6 +440,8 @@ function renderVersusView(root){
   colHeadRow.appendChild(el('th', { class: 'versus-corner versus-corner--label', scope: 'col' }, 'Składnik'));
   orderedRolls.forEach(roll => {
     const col = el('div', { class: 'versus-col' });
+    const shared = sharedRollIds.has(roll.id);
+    const originLabel = versusOriginLabel(roll.id);
     const photoBox = buildPhotoBox(roll.image, roll.name, { boxClass: 'versus-col__photo', ticket: formatTicket(roll.id) });
     photoBox.appendChild(el('button', {
       class: 'versus-col__remove',
@@ -418,11 +450,17 @@ function renderVersusView(root){
     }, iconEl('close')));
     col.appendChild(photoBox);
     col.appendChild(el('div', { class: 'versus-col__name' }, roll.name));
-    const originLabel = versusOriginLabel(roll.id);
     if (originLabel){
       col.appendChild(el('div', { class: 'versus-col__origin', title: 'Dodano z zestawu: ' + originLabel }, originLabel));
     }
-    colHeadRow.appendChild(el('th', { class: 'versus-col-head', scope: 'col' }, col));
+    // Zielone tło "karty" na CAŁEJ komórce nagłówka (nie na samym zdjęciu --
+    // patrz isSharedVersusRoll wyżej) dla rolek wspólnych dla >=2 dodanych
+    // zestawów.
+    colHeadRow.appendChild(el('th', {
+      class: 'versus-col-head' + (shared ? ' is-shared' : ''),
+      scope: 'col',
+      title: shared ? ('Rolka wspólna dla kilku porównywanych zestawów: ' + originLabel) : null,
+    }, col));
   });
 
   table.appendChild(el('thead', {}, [groupHeadRow, colHeadRow]));
@@ -433,7 +471,8 @@ function renderVersusView(root){
     tr.appendChild(el('th', { class: 'versus-row-label', scope: 'row' }, row.label));
     orderedRolls.forEach(roll => {
       const has = row.presentIds.has(roll.id);
-      tr.appendChild(el('td', { class: 'versus-cell' + (has ? ' is-yes' : ' is-no') }, has ? '✓' : '–'));
+      const cls = 'versus-cell' + (has ? ' is-yes' : ' is-no') + (sharedRollIds.has(roll.id) ? ' is-shared' : '');
+      tr.appendChild(el('td', { class: cls }, has ? '✓' : '–'));
     });
     tbody.appendChild(tr);
   });
