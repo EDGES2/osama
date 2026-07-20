@@ -8,9 +8,9 @@ var QuizState = {
   order: [],
   index: 0,
   correctCount: 0,
-  answered: false,
-  currentOptions: [],
-  selectedId: null,
+  cache: {},            // index -> { roll, options, answered, selectedId } -- built lazily,
+                         // kept around so navigating back to an already-seen question shows
+                         // the exact same 4 options and answer state instead of rerolling it.
 };
 
 function quizStart(showCaption){
@@ -18,18 +18,22 @@ function quizStart(showCaption){
   QuizState.order = shuffle(ROLLS.map((_, i) => i));
   QuizState.index = 0;
   QuizState.correctCount = 0;
+  QuizState.cache = {};
   QuizState.phase = 'question';
-  QuizState.answered = false;
 }
 
-function quizBuildQuestion(){
-  const roll = ROLLS[QuizState.order[QuizState.index]];
-  const distractors = pickDistractors(roll, ROLLS, 3);
-  const options = shuffle([roll, ...distractors]);
-  QuizState.currentOptions = options;
-  QuizState.answered = false;
-  QuizState.selectedId = null;
-  return roll;
+function quizGetQuestion(idx){
+  if (!QuizState.cache[idx]){
+    const roll = ROLLS[QuizState.order[idx]];
+    const distractors = pickDistractors(roll, ROLLS, 3);
+    QuizState.cache[idx] = {
+      roll,
+      options: shuffle([roll, ...distractors]),
+      answered: false,
+      selectedId: null,
+    };
+  }
+  return QuizState.cache[idx];
 }
 
 function renderQuizView(root){
@@ -76,13 +80,31 @@ function renderQuizView(root){
   }
 
   // phase === 'question'
-  if (!QuizState.currentOptions.length && !QuizState.answered) quizBuildQuestion();
-  const roll = ROLLS[QuizState.order[QuizState.index]];
+  const total = ROLLS.length;
+  const qc = quizGetQuestion(QuizState.index);
+  const roll = qc.roll;
 
   view.appendChild(el('div', { class: 'score-strip' }, [
-    el('span', {}, (QuizState.index + 1) + ' / ' + ROLLS.length),
-    el('div', { class: 'progress-track' }, el('div', { class: 'progress-fill', style: 'width:' + (100 * QuizState.index / ROLLS.length) + '%' })),
+    el('span', {}, (QuizState.index + 1) + ' / ' + total),
+    el('div', { class: 'progress-track' }, el('div', { class: 'progress-fill', style: 'width:' + (100 * QuizState.index / total) + '%' })),
     el('span', {}, 'Wynik: ' + QuizState.correctCount),
+  ]));
+
+  // Free browsing between questions -- doesn't touch answered state or
+  // score, just moves the pointer. quizGetQuestion() above keeps each
+  // visited question's options/answer stable across visits.
+  view.appendChild(el('div', { class: 'card-nav' }, [
+    el('button', {
+      class: 'round-btn', 'aria-label': 'Poprzednie pytanie',
+      disabled: QuizState.index <= 0 ? 'disabled' : null,
+      onClick: () => { if (QuizState.index > 0){ QuizState.index--; renderQuizView(root); } }
+    }, iconEl('arrowLeft')),
+    el('span', { class: 'card-nav__counter' }, (QuizState.index + 1) + ' / ' + total),
+    el('button', {
+      class: 'round-btn', 'aria-label': 'Następne pytanie',
+      disabled: QuizState.index >= total - 1 ? 'disabled' : null,
+      onClick: () => { if (QuizState.index < total - 1){ QuizState.index++; renderQuizView(root); } }
+    }, iconEl('arrowRight')),
   ]));
 
   const photoWrap = el('div', { class: 'quiz-photo-wrap' });
@@ -100,18 +122,18 @@ function renderQuizView(root){
   }
 
   const optionsWrap = el('div', { class: 'quiz-options' });
-  QuizState.currentOptions.forEach(opt => {
+  qc.options.forEach(opt => {
     const isCorrect = opt.id === roll.id;
     const btn = el('button', { class: 'option-btn' }, opt.name);
-    btn.disabled = QuizState.answered;
-    if (QuizState.answered){
+    btn.disabled = qc.answered;
+    if (qc.answered){
       if (isCorrect) btn.classList.add('is-correct');
-      else if (opt.id === QuizState.selectedId) btn.classList.add('is-wrong');
+      else if (opt.id === qc.selectedId) btn.classList.add('is-wrong');
     }
     btn.addEventListener('click', () => {
-      if (QuizState.answered) return;
-      QuizState.answered = true;
-      QuizState.selectedId = opt.id;
+      if (qc.answered) return;
+      qc.answered = true;
+      qc.selectedId = opt.id;
       if (isCorrect) QuizState.correctCount++;
       renderQuizView(root);
     });
@@ -119,8 +141,8 @@ function renderQuizView(root){
   });
   view.appendChild(optionsWrap);
 
-  if (QuizState.answered){
-    const isLast = QuizState.index >= ROLLS.length - 1;
+  if (qc.answered){
+    const isLast = QuizState.index >= total - 1;
     view.appendChild(el('button', {
       class: 'btn btn-primary btn-block',
       onClick: () => {
@@ -128,7 +150,6 @@ function renderQuizView(root){
           QuizState.phase = 'summary';
         } else {
           QuizState.index++;
-          quizBuildQuestion();
         }
         renderQuizView(root);
       }

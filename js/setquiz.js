@@ -5,36 +5,42 @@
 var SetQuizState = {
   order: [],
   index: 0,
-  checked: false,
-  selected: new Set(),
-  candidateData: null, // { members, traps, candidates, unmatchedExtras, clusters }
   correctSets: 0,
-  hardMode: false, // true = candidate list shows only names, no thumbnails
+  hardMode: false, // true = candidate list shows only names, no thumbnails (persists across questions)
+  cache: {},        // index -> { candidateData, selected: Set, checked } -- built lazily, kept
+                     // around so navigating back to an already-seen set shows the exact same
+                     // candidate pool and checkbox/checked state instead of rerolling it.
 };
 
-function setQuizBuildQuestion(){
-  const set = SETS[SetQuizState.order[SetQuizState.index]];
-  SetQuizState.candidateData = buildSetCandidates(set, ROLLS);
-  SetQuizState.selected = new Set();
-  SetQuizState.checked = false;
-  return set;
+function setQuizGetQuestion(idx){
+  if (!SetQuizState.cache[idx]){
+    const set = SETS[SetQuizState.order[idx]];
+    SetQuizState.cache[idx] = {
+      candidateData: buildSetCandidates(set, ROLLS),
+      selected: new Set(),
+      checked: false,
+    };
+  }
+  return SetQuizState.cache[idx];
 }
 
 function setQuizInit(){
   SetQuizState.order = shuffle(SETS.map((_, i) => i));
   SetQuizState.index = 0;
   SetQuizState.correctSets = 0;
-  setQuizBuildQuestion();
+  SetQuizState.cache = {};
 }
 
 function renderSetQuizView(root){
   clear(root);
   const view = el('div', { class: 'view' });
 
-  if (!SetQuizState.candidateData || SetQuizState.order.length !== SETS.length) setQuizInit();
+  if (!SetQuizState.order.length || SetQuizState.order.length !== SETS.length) setQuizInit();
 
+  const total = SETS.length;
   const set = SETS[SetQuizState.order[SetQuizState.index]];
-  const { members, candidates, unmatchedExtras } = SetQuizState.candidateData;
+  const qc = setQuizGetQuestion(SetQuizState.index);
+  const { members, candidates, unmatchedExtras } = qc.candidateData;
 
   const modeRow = el('div', { class: 'chip-row' });
   const hardChip = el('button', {
@@ -45,9 +51,26 @@ function renderSetQuizView(root){
   view.appendChild(modeRow);
 
   view.appendChild(el('div', { class: 'score-strip' }, [
-    el('span', {}, (SetQuizState.index + 1) + ' / ' + SETS.length),
-    el('div', { class: 'progress-track' }, el('div', { class: 'progress-fill', style: 'width:' + (100 * SetQuizState.index / SETS.length) + '%' })),
+    el('span', {}, (SetQuizState.index + 1) + ' / ' + total),
+    el('div', { class: 'progress-track' }, el('div', { class: 'progress-fill', style: 'width:' + (100 * SetQuizState.index / total) + '%' })),
     el('span', {}, 'Poprawne: ' + SetQuizState.correctSets),
+  ]));
+
+  // Free browsing between sets -- doesn't touch checked state or score,
+  // just moves the pointer. setQuizGetQuestion() above keeps each
+  // visited set's candidates/selection stable across visits.
+  view.appendChild(el('div', { class: 'card-nav' }, [
+    el('button', {
+      class: 'round-btn', 'aria-label': 'Poprzedni zestaw',
+      disabled: SetQuizState.index <= 0 ? 'disabled' : null,
+      onClick: () => { if (SetQuizState.index > 0){ SetQuizState.index--; renderSetQuizView(root); } }
+    }, iconEl('arrowLeft')),
+    el('span', { class: 'card-nav__counter' }, (SetQuizState.index + 1) + ' / ' + total),
+    el('button', {
+      class: 'round-btn', 'aria-label': 'Następny zestaw',
+      disabled: SetQuizState.index >= total - 1 ? 'disabled' : null,
+      onClick: () => { if (SetQuizState.index < total - 1){ SetQuizState.index++; renderSetQuizView(root); } }
+    }, iconEl('arrowRight')),
   ]));
 
   const photoWrap = el('div', { class: 'quiz-photo-wrap' });
@@ -65,9 +88,9 @@ function renderSetQuizView(root){
   const memberIds = new Set(members.map(r => r.id));
   const list = el('ul', { class: 'candidate-list' });
   candidates.forEach(roll => {
-    const isChecked = SetQuizState.selected.has(roll.id);
+    const isChecked = qc.selected.has(roll.id);
     let rowClass = 'candidate-row';
-    if (SetQuizState.checked){
+    if (qc.checked){
       const isMember = memberIds.has(roll.id);
       if (isMember && isChecked) rowClass += ' is-hit';
       else if (!isMember && isChecked) rowClass += ' is-miss';
@@ -78,10 +101,10 @@ function renderSetQuizView(root){
     const row = el('label', { class: rowClass }, [
       el('input', {
         type: 'checkbox', checked: isChecked ? 'checked' : null,
-        disabled: SetQuizState.checked ? 'disabled' : null,
+        disabled: qc.checked ? 'disabled' : null,
         onChange: (e) => {
-          if (e.target.checked) SetQuizState.selected.add(roll.id);
-          else SetQuizState.selected.delete(roll.id);
+          if (e.target.checked) qc.selected.add(roll.id);
+          else qc.selected.delete(roll.id);
           renderSetQuizView(root);
         }
       }),
@@ -102,28 +125,26 @@ function renderSetQuizView(root){
     });
   }
 
-  if (!SetQuizState.checked){
+  if (!qc.checked){
     view.appendChild(el('button', {
       class: 'btn btn-primary btn-block',
-      onClick: () => { SetQuizState.checked = true; 
-        const correct = candidates.every(r => SetQuizState.selected.has(r.id) === memberIds.has(r.id));
+      onClick: () => {
+        qc.checked = true;
+        const correct = candidates.every(r => qc.selected.has(r.id) === memberIds.has(r.id));
         if (correct) SetQuizState.correctSets++;
         renderSetQuizView(root);
       }
     }, 'Sprawdź'));
   } else {
-    const isLast = SetQuizState.index >= SETS.length - 1;
+    const isLast = SetQuizState.index >= total - 1;
     view.appendChild(el('button', {
       class: 'btn btn-primary btn-block',
       onClick: () => {
         if (isLast){
-          SetQuizState.index = 0;
-          SetQuizState.order = shuffle(SETS.map((_, i) => i));
-          SetQuizState.correctSets = 0;
+          setQuizInit();
         } else {
           SetQuizState.index++;
         }
-        setQuizBuildQuestion();
         renderSetQuizView(root);
       }
     }, isLast ? 'Zacznij od nowa' : 'Następny zestaw'));

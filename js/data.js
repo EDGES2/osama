@@ -1499,39 +1499,33 @@ var SETS = [
   },
   {
     "id": "s005",
-    "name": "Zestaw Kibica",
+    "name": "Zestaw Tygodnia(20.07-27.07)",
     "count": null,
     "items": [
+      {
+        "name": "Futomaki ze smażonym tuńczykiem",
+        "rollId": "r025",
+        "portion": "full"
+      },
+      {
+        "name": "California z łososiem w kawiorze",
+        "rollId": "r013",
+        "portion": "full"
+      },
       {
         "name": "Philadelphia z łososiem",
         "rollId": "r058",
         "portion": "full"
       },
       {
-        "name": "cheese roll",
-        "rollId": "r018",
+        "name": "Philadelphia z tuńczykiem",
+        "rollId": "r061",
         "portion": "full"
       },
       {
-        "name": "krewetki w tempurze 10 szt",
-        "rollId": "r034",
-        "portion": "full"
-      },
-      {
-        "name": "burger z łososiem",
-        "rollId": "r008",
-        "portion": "full"
-      },
-      {
-        "name": "burger cheezy",
-        "rollId": "r006",
-        "portion": "full"
-      },
-      {
-        "name": "Pepsi",
+        "name": "Cheese roll z pieczonym łososiem",
         "rollId": null,
-        "portion": "full",
-        "qty": 2
+        "portion": "full"
       }
     ],
     "image": "images/s005.webp"

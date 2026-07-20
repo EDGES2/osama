@@ -136,20 +136,73 @@ function buildRollRefRow(item){
 
 function formatTicket(id){ return id.toUpperCase(); }
 
-/** Direct roll detail block: photo + name + full composition, no accordion. */
-function renderRollDetailBlock(roll){
+/**
+ * Small pill toggle used anywhere a roll's OR a set's own card/tile is
+ * shown -- adds/removes it from the cross-page Versus comparison (see
+ * versus.js, loaded after this file but only called at click-time, by
+ * which point everything is loaded). Dispatches on the id prefix, same
+ * convention as itemById() above: a roll id ("r...") toggles just that
+ * roll (toggleVersus/isInVersus); a set id ("s...") toggles the whole
+ * set at once (toggleVersusSet/isSetFullyInVersus, versus.js) -- every
+ * photographed roll it contains, tagged with the set's origin.
+ *
+ * A set with no photographed rolls at all (nothing for toggleVersusSet
+ * to add -- see setMemberRollIds) renders the button disabled instead
+ * of hiding it, so the card layout stays consistent with every other
+ * card of the same kind.
+ *
+ * Otherwise deliberately dumb: it doesn't know or care which view is
+ * showing it, so the caller supplies `onToggle` to re-render whatever
+ * root needs to reflect the new on/off state (the label and `is-on`
+ * class only update on next render, not live inside this closure).
+ */
+function buildVersusToggleBtn(itemId, onToggle, opts){
+  opts = opts || {};
+  const isSet = itemId[0] === 's';
+  const disabled = isSet && setMemberRollIds(itemId).length === 0;
+  const on = !disabled && (isSet ? isSetFullyInVersus(itemId) : isInVersus(itemId));
+  const label = opts.label !== undefined ? opts.label : (on ? 'W porównaniu' : '+ Porównaj');
+  const who = opts.name || itemId;
+  const btn = el('button', {
+    class: (opts.className || 'versus-toggle') + (on ? ' is-on' : '') + (disabled ? ' is-disabled' : ''),
+    disabled: disabled ? 'disabled' : null,
+    'aria-label': disabled
+      ? ('Brak zdjęć rolek w zestawie -- nie da się porównać: ' + who)
+      : (on ? ('Usuń z porównania: ' + who) : ('Dodaj do porównania (Versus): ' + who)),
+    'aria-pressed': on ? 'true' : 'false',
+    onClick: (e) => {
+      e.stopPropagation();
+      if (disabled) return;
+      if (isSet) toggleVersusSet(itemId); else toggleVersus(itemId);
+      if (onToggle) onToggle();
+    },
+  }, label);
+  return btn;
+}
+
+/** Direct roll detail block: photo + name + full composition, no accordion.
+ * `onVersusChange`, if given, is called after the Versus toggle button is
+ * clicked so the caller can re-render its own root (this block itself
+ * doesn't re-render -- it's a one-shot element tree like the rest of
+ * render.js). */
+function renderRollDetailBlock(roll, onVersusChange){
   return el('div', { class: 'detail-head detail-head--roll' }, [
     buildPhotoBox(roll.image, roll.name, { ticket: formatTicket(roll.id), stamp: roll.needsSauce }),
     el('div', { class: 'detail-body' }, [
-      el('h2', { class: 'detail-name' }, roll.name),
+      el('div', { class: 'detail-name-row' }, [
+        el('h2', { class: 'detail-name' }, roll.name),
+        buildVersusToggleBtn(roll.id, onVersusChange, { className: 'detail-versus-btn', name: roll.name }),
+      ]),
       roll.count > 1 ? el('p', { class: 'flip-card__meta' }, roll.count + ' szt') : null,
       buildIngredientList(roll.ingredients),
     ]),
   ]);
 }
 
-/** Set detail block: photo+name row, then an accordion of its rolls. */
-function renderSetDetailBlock(set){
+/** Set detail block: photo+name row (with a Versus toggle for the whole
+ * set, same spot as renderRollDetailBlock's), then an accordion of its
+ * rolls. `onVersusChange` behaves exactly as in renderRollDetailBlock. */
+function renderSetDetailBlock(set, onVersusChange){
   const membersWrap = el('div', { class: 'accordion-list', style: 'display:flex;flex-direction:column;gap:10px;' });
 
   set.items.forEach((item, idx) => {
@@ -183,7 +236,10 @@ function renderSetDetailBlock(set){
   return el('div', { class: 'detail-head detail-head--set' }, [
     buildPhotoBox(set.image, set.name, { ticket: formatTicket(set.id) }),
     el('div', { class: 'detail-body', style: 'flex:1;display:flex;flex-direction:column;gap:12px;' }, [
-      el('h2', { class: 'detail-name' }, set.name),
+      el('div', { class: 'detail-name-row' }, [
+        el('h2', { class: 'detail-name' }, set.name),
+        buildVersusToggleBtn(set.id, onVersusChange, { className: 'detail-versus-btn', name: set.name }),
+      ]),
       set.count ? el('p', { class: 'flip-card__meta' }, set.count + ' szt w zestawie') : null,
       membersWrap,
     ]),

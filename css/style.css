@@ -117,9 +117,24 @@ a{ color:inherit; }
   background:transparent;border:none;color:var(--rice);
   border-radius:50%;
   cursor:pointer;
+  position:relative;
 }
 .icon-btn:hover{ background:rgba(247,241,227,.12); }
 .icon-btn svg{ width:22px;height:22px; }
+/* Text variant for the topbar VS button -- same circle, "VS" letters
+   instead of an svg icon, set in the display font like every other
+   uppercase label in the app. */
+.icon-btn--text{
+  font-family:var(--font-display); font-weight:700; font-size:14px;
+  letter-spacing:.02em; text-transform:uppercase;
+}
+.icon-btn__badge{
+  position:absolute; top:2px; right:2px;
+  min-width:16px; height:16px; padding:0 3px;
+  border-radius:999px; background:var(--salmon); color:var(--rice);
+  font-family:var(--font-mono); font-size:10px; line-height:1;
+  display:flex; align-items:center; justify-content:center;
+}
 
 /* ---------------- Main / views ---------------- */
 .view-root{
@@ -430,6 +445,22 @@ a{ color:inherit; }
                                               flat dark bar */
 }
 .detail-name{ font-size:24px; }
+.detail-name-row{
+  display:flex; align-items:flex-start; justify-content:space-between;
+  gap:10px; flex-wrap:wrap;
+}
+.detail-versus-btn{
+  font-family:var(--font-body); font-size:13px; font-weight:600;
+  padding:7px 14px; border-radius:999px; flex:none; white-space:nowrap;
+  border:1.5px solid var(--rice-3); background:var(--rice); color:var(--ink-text);
+  cursor:pointer;
+}
+.detail-versus-btn:hover{ background:var(--rice-2); }
+.detail-versus-btn.is-on{ border-color:var(--salmon); background:#FCE6DE; color:var(--salmon-dk); }
+/* Set with zero photographed rolls (nothing for Versus to add) -- keeps
+   the button in place for layout consistency, just inert. */
+.detail-versus-btn.is-disabled{ opacity:.4; cursor:not-allowed; }
+.detail-versus-btn.is-disabled:hover{ background:var(--rice); }
 .img-missing{
   display:flex; align-items:center; justify-content:center; text-align:center; padding:12px;
   aspect-ratio:4/3; min-height:160px;
@@ -477,8 +508,8 @@ a{ color:inherit; }
    sets `display` (both are single-selector specificity, and author beats the
    UA stylesheet), so it needs an explicit override or the panel never
    actually hides. */
-#menuPanel[hidden], #learnRoot[hidden],
-#topbarBrand[hidden], #topbarActions[hidden], #backBtn[hidden]{ display:none; }
+#menuPanel[hidden], #learnRoot[hidden], #versusRoot[hidden],
+#topbarBrand[hidden], #topbarActions[hidden], #backBtn[hidden], #versusBadge[hidden]{ display:none; }
 
 .menu-search-bar{
   display:flex; align-items:center; gap:10px;
@@ -513,6 +544,19 @@ a{ color:inherit; }
 }
 .result-row__plus svg{ width:16px; height:16px; }
 .result-row__plus:hover{ background:var(--ink-2); }
+/* "VS" toggle for list rows -- a flex sibling placed before .result-row__plus
+   in markup, so it naturally lands to its left without any absolute
+   positioning (unlike the grid-tile version, this row is a plain flex row). */
+.result-row__vs{
+  width:28px; height:28px; padding:0; border-radius:8px; flex:none;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-display); font-size:10px; font-weight:700;
+  background:var(--ink); color:var(--rice); border:none; cursor:pointer;
+}
+.result-row__vs:hover{ background:var(--ink-2); }
+.result-row__vs.is-on{ background:var(--salmon); color:var(--rice); }
+.result-row__vs.is-disabled{ opacity:.4; cursor:not-allowed; }
+.result-row__vs.is-disabled:hover{ background:var(--ink); }
 
 /* Grid of roll picker tiles (mode "Wg rolek"): small photo on top, name
    below -- 1 per row on phones, 3 per row from tablet width up. Image
@@ -552,6 +596,23 @@ a{ color:inherit; }
 }
 .roll-picker-tile__plus svg{ width:14px; height:14px; }
 .roll-picker-tile__plus:hover{ background:var(--ink-2); }
+.roll-picker-tile__plus--shifted{ left:36px; }
+/* "VS" toggle -- same corner as "+", but a rounded square (not a full
+   circle) so the two-letter label reads clearly and the two actions
+   stay visually distinct at a glance. Sits to the LEFT of "+" (see
+   --shifted above), which is why it keeps the "+"'s old left:6px
+   spot. */
+.roll-picker-tile__vs{
+  position:absolute; top:6px; left:6px;
+  width:24px; height:24px; padding:0; border-radius:7px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-display); font-size:9px; font-weight:700; letter-spacing:0;
+  background:var(--ink); color:var(--rice); border:none; cursor:pointer;
+}
+.roll-picker-tile__vs:hover{ background:var(--ink-2); }
+.roll-picker-tile__vs.is-on{ background:var(--salmon); color:var(--rice); }
+.roll-picker-tile__vs.is-disabled{ opacity:.4; cursor:not-allowed; }
+.roll-picker-tile__vs.is-disabled:hover{ background:var(--ink); }
 .roll-picker-tile__name{ font-size:13px; color:var(--ink-text); }
 .search-back{
   display:inline-flex; align-items:center; gap:6px;
@@ -560,6 +621,151 @@ a{ color:inherit; }
   cursor:pointer; padding:6px 2px; align-self:flex-start;
 }
 .search-back svg{ width:18px;height:18px; }
+
+/* ---------------------------------------------------------
+   Versus (порівняння) -- vertical photo cards as table columns,
+   ingredients as rows, ✓/– per cell. Columns are clustered by visual
+   group (groups.js) with a spanning label row above them.
+   --------------------------------------------------------- */
+.versus-empty{
+  text-align:center; padding:40px 14px; color:var(--ink-soft);
+  display:flex; flex-direction:column; gap:14px; align-items:center;
+}
+.versus-toolbar{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  font-family:var(--font-mono); font-size:13px; color:var(--ink-soft);
+}
+.versus-scroll{
+  overflow-x:auto; -webkit-overflow-scrolling:touch;
+  border-radius:var(--radius-m);
+}
+.versus-table{ border-collapse:collapse; }
+.versus-corner{
+  position:sticky; left:0; z-index:3;
+  background:var(--rice); min-width:120px;
+}
+.versus-corner--label{
+  font-family:var(--font-mono); font-size:12px; color:var(--ink-soft);
+  text-align:left; padding:6px 12px; font-weight:400;
+}
+.versus-group-head{
+  font-family:var(--font-display); text-transform:uppercase; letter-spacing:.02em;
+  font-size:12px; color:var(--ink-soft);
+  background:var(--rice-3); padding:6px 8px; border-radius:8px 8px 0 0;
+  white-space:nowrap;
+}
+/* top-align, not bottom -- with bottom alignment, columns whose name
+   wraps to fewer lines get pushed down to match the tallest column's
+   total height, so the photo boxes (same size in every column) end up
+   staggered at different heights instead of sharing one straight top
+   edge right under the group-color bar above them. */
+.versus-col-head{ vertical-align:top; padding:6px; }
+.versus-col{
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  width:128px;
+}
+.versus-col__photo{
+  position:relative; width:100%; aspect-ratio:3/4;
+  border-radius:var(--radius-m); overflow:hidden;
+  background:var(--ink-2); box-shadow:var(--shadow-card);
+}
+.versus-col__photo img{
+  width:100%; height:100%; object-fit:contain; object-position:center; display:block;
+}
+.versus-col__photo .flip-card__ticket{
+  top:6px; left:6px; font-size:10px; padding:3px 6px;
+}
+.versus-col__remove{
+  position:absolute; top:6px; right:6px;
+  width:24px; height:24px; border-radius:50%; padding:0; border:none;
+  background:rgba(30,26,23,.72); color:var(--rice);
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+}
+.versus-col__remove svg{ width:12px; height:12px; }
+.versus-col__remove:hover{ background:var(--salmon); }
+.versus-col__name{
+  font-size:12.5px; text-align:center; line-height:1.25; color:var(--ink-text);
+  font-family:var(--font-body); font-weight:500;
+}
+/* Small "which set this roll was bulk-added from" tag under its name --
+   muted mono text, not a full chip, so it reads as metadata rather than
+   competing with the name above it. Truncates instead of wrapping so it
+   can't blow out the column's fixed width when a set name is long. */
+.versus-col__origin{
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.01em;
+  color:var(--ink-soft); text-align:center;
+  max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+/* Chip row above the table listing sets currently represented (via
+   their rolls) in the comparison -- each removable chip strips just
+   that set's origin tags, see removeSetOriginFromVersus. */
+.versus-origin-row{ align-items:center; }
+.versus-origin-row__label{
+  font-family:var(--font-mono); font-size:12px; color:var(--ink-soft);
+}
+.versus-row-label{
+  position:sticky; left:0; z-index:1;
+  text-align:left; white-space:nowrap; font-weight:500;
+  font-size:13.5px; color:var(--ink-text);
+  padding:8px 12px; background:var(--rice);
+  border-right:1.5px solid var(--rice-3);
+}
+.versus-cell{
+  text-align:center; font-size:15px; padding:8px 10px;
+  border-bottom:1px solid var(--rice-3); min-width:60px;
+}
+.versus-cell.is-yes{ color:var(--wasabi-dk); font-weight:700; }
+.versus-cell.is-no{ color:var(--ink-soft); opacity:.5; }
+.versus-table tbody tr:nth-child(even) .versus-cell{ background:var(--rice-2); }
+.versus-table tbody tr:nth-child(even) .versus-row-label{ background:var(--rice-2); }
+
+/* ---------------------------------------------------------
+   Versus group picker -- add rolls to the comparison right inside
+   this tab, browsing the same hand-curated visual-similarity groups
+   (groups.js) used for quiz distractors and for clustering the table
+   columns above. One horizontally-scrolling shelf of small photo
+   tiles per group; a tile toggles membership on tap, same as the
+   "VS" button anywhere else in the app.
+   --------------------------------------------------------- */
+.versus-picker-shell{ display:flex; flex-direction:column; gap:14px; }
+.versus-picker{ display:flex; flex-direction:column; gap:18px; }
+.versus-picker__title{ font-size:18px; }
+.versus-picker__group{ display:flex; flex-direction:column; gap:8px; }
+.versus-picker__group-title{
+  font-family:var(--font-display); text-transform:uppercase; letter-spacing:.02em;
+  font-size:12px; color:var(--ink-soft);
+}
+.versus-picker__row{
+  display:flex; gap:10px;
+  overflow-x:auto; -webkit-overflow-scrolling:touch;
+  padding:2px 2px 6px;
+}
+.versus-picker__tile{
+  position:relative; flex:0 0 auto; width:76px;
+  display:flex; flex-direction:column; align-items:center; gap:5px;
+  background:none; border:none; padding:0; margin:0;
+  font-family:inherit; cursor:pointer;
+}
+.versus-picker__tile-photo{
+  position:relative; display:block; width:76px; height:76px;
+  border-radius:14px; overflow:hidden;
+  background:var(--ink-2); border:2px solid transparent;
+}
+.versus-picker__tile.is-on .versus-picker__tile-photo{ border-color:var(--salmon); }
+.versus-picker__tile-img{ width:100%; height:100%; object-fit:cover; display:block; }
+.versus-picker__tile-check{
+  position:absolute; top:4px; right:4px;
+  width:20px; height:20px; border-radius:50%;
+  background:var(--salmon); color:var(--rice);
+  align-items:center; justify-content:center;
+  display:none;
+}
+.versus-picker__tile-check svg{ width:11px; height:11px; }
+.versus-picker__tile.is-on .versus-picker__tile-check{ display:flex; }
+.versus-picker__tile-name{
+  font-size:11px; line-height:1.25; color:var(--ink-text); text-align:center;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+}
 
 /* misc */
 .empty-state{ text-align:center; padding:50px 14px; color:var(--ink-soft); }
@@ -674,4 +880,13 @@ a{ color:inherit; }
   /* Menu's search bar is regular page content now, not a dialog --
      the plain input just gets a touch taller at desktop width. */
   .search-input{ height:52px; }
+
+  /* Versus: roomier columns since horizontal scroll is less needed
+     with the extra width, and the toolbar/empty state read as a
+     centered single-focus block like the quiz screens above. */
+  .versus-toolbar{ max-width:900px; width:100%; margin-inline:auto; }
+  .versus-col{ width:160px; }
+  .versus-picker{ max-width:900px; width:100%; margin-inline:auto; }
+  .versus-picker__tile{ width:88px; }
+  .versus-picker__tile-photo{ width:88px; height:88px; }
 }

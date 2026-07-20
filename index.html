@@ -24,6 +24,10 @@
       <h1 class="topbar__title">Trener Sushi<span class="topbar__tagline"> — opanuj menu rolek i zestawów</span></h1>
     </div>
     <div class="topbar__actions" id="topbarActions">
+      <button class="icon-btn icon-btn--text" id="openVersusBtn" aria-label="Versus — porównanie rolek">
+        VS
+        <span class="icon-btn__badge" id="versusBadge" hidden>0</span>
+      </button>
       <button class="icon-btn" id="openLearnBtn" aria-label="Tryb nauki">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 4L2 9l10 5 10-5-10-5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M6 11.5V17c0 1.2 2.7 3 6 3s6-1.8 6-3v-5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 9v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
       </button>
@@ -38,6 +42,7 @@
       <div class="search-body" id="searchBody"></div>
     </div>
     <div id="learnRoot" hidden></div>
+    <div id="versusRoot" hidden></div>
   </main>
 
 </div>
@@ -45,12 +50,14 @@
 <script src="js/data.js"></script>
 <script src="js/fuzzy.js"></script>
 <script src="js/groups.js"></script>
+<script src="js/ingredientGroups.js"></script>
 <script src="js/similarity.js"></script>
 <script src="js/render.js"></script>
 <script src="js/cards.js"></script>
 <script src="js/quiz.js"></script>
 <script src="js/setquiz.js"></script>
 <script src="js/learn.js"></script>
+<script src="js/versus.js"></script>
 <script src="js/search.js"></script>
 <script src="js/app.js"></script>
 </body>

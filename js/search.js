@@ -4,17 +4,27 @@
 //                    сетів за алфавітом, з лічильником можливих сетів
 //                    і кнопкою "+" (починає будувати сет, як у
 //                    "setsByRolls") на кожній рол(к)і, з якої можна
-//                    зібрати сет; з введеним текстом: попередній
-//                    нечіткий пошук — список рядків з відсотком
-//                    збігу (як було)
+//                    зібрати сет -- ТІЛЬКИ на рол(к)ах, сету з сета не
+//                    збудуєш; КОЖНА картка, і рол(к)а, і сет, також
+//                    отримує кнопку "VS" (лівіше "+", де він є) --
+//                    додає/забирає з Versus (versus.js), глобального
+//                    порівняння (на сеті -- одразу всі його
+//                    сфотографовані рол(к)и, toggleVersusSet у
+//                    versus.js); з введеним текстом: попередній нечіткий
+//                    пошук — список рядків з відсотком збігу (як було),
+//                    ті ж "+" (лише рол(к)и) і "VS" (обидва типи)
 //  - "sets"        — те саме, але лише серед сетів, сітка карток усіх
-//                    сетів за алфавітом (без потреби щось вводити)
+//                    сетів за алфавітом (без потреби щось вводити);
+//                    кожна картка теж має кнопку "VS"
 //  - "other"       — сітка карток рол(о)к, з яких НЕ можна зібрати сет
 //                    (немає в жодному SETS.items) -- позиції "тільки
-//                    окремо", за алфавітом
+//                    окремо", за алфавітом; так само як у "all", кожна
+//                    картка має кнопку "VS"
 //  - "setsByRolls" — сітка карток усіх рол(о)к (можна фільтрувати текстом),
 //                    обрані лежать чіпами; сітка звужується до сумісних із
-//                    уже обраними, знизу — сети, що містять УСІ обрані рол(к)и
+//                    уже обраними, знизу — сети, що містять УСІ обрані рол(к)и;
+//                    картки в сітці (рол(к)и, не чіпи вибору) і рядки
+//                    сетів знизу -- всі мають кнопку "VS"
 //  - "ingredients" — вибір інгредієнтів (без тих, що є майже у кожній рол(к)і,
 //                    напр. рис і норі); список звужується до сумісних із уже
 //                    обраними -> знизу рол(к)и АБО сети (перемикач), що
@@ -67,6 +77,14 @@ function searchGetAllItems(){
 // wpisy liczony jest zawsze na bazie ROLLS -- nie duplikujemy go dla
 // zestawów, żeby nie mieć dwóch niezależnych definicji "banalnego"
 // składnika.
+//
+// Ponad tym jest jeszcze DRUGA warstwa scalania, z ingredientGroups.js:
+// ingredientCanonicalKey() niżej łączy tylko różne ZAPISY tych samych
+// słów (kolejność, brakująca diakrytyka), a INGREDIENT_GROUP_OF łączy
+// RÓŻNE słowa opisujące ten sam składnik w innej formie przygotowania
+// (np. "Krewetka" / "Krewetka gotowana" / "Krewetka w tempurze" -> jeden
+// chip "Krewetka (dowolna forma)"). Zobacz nagłówek ingredientGroups.js
+// po pełne wytłumaczenie i sposób dodawania nowych wariantów.
 // ---------------------------------------------------------
 var UNIVERSAL_INGREDIENT_RATIO = 0.8;
 var _ingredientIndexCache = null;
@@ -74,6 +92,15 @@ var _ingredientIndexCache = null;
 function ingredientCanonicalKey(name){
   const norm = searchNormalize(name);
   return norm.split(' ').filter(Boolean).sort().join(' ');
+}
+
+/** Canonical ingredient key -> the key actually used to bucket it in
+ * getIngredientIndex() below: its INGREDIENT_GROUPS family key if
+ * ingredientGroups.js maps it to one, otherwise the canonical key
+ * unchanged (stays its own single-ingredient entry). */
+function ingredientBucketKey(canonicalKey){
+  if (typeof INGREDIENT_GROUP_OF !== 'undefined' && INGREDIENT_GROUP_OF[canonicalKey]) return INGREDIENT_GROUP_OF[canonicalKey];
+  return canonicalKey;
 }
 
 function getIngredientIndex(){
@@ -87,7 +114,7 @@ function getIngredientIndex(){
   ROLLS.forEach(roll => {
     const seenKeys = new Set();
     roll.ingredients.forEach(ing => {
-      const key = ingredientCanonicalKey(ing);
+      const key = ingredientBucketKey(ingredientCanonicalKey(ing));
       if (!key || seenKeys.has(key)) return;
       seenKeys.add(key);
       const g = ensureGroup(key);
@@ -102,7 +129,7 @@ function getIngredientIndex(){
       const roll = item.rollId ? rollById(item.rollId) : null;
       if (!roll) return;
       roll.ingredients.forEach(ing => {
-        const key = ingredientCanonicalKey(ing);
+        const key = ingredientBucketKey(ingredientCanonicalKey(ing));
         if (key) setKeys.add(key);
       });
     });
@@ -113,8 +140,14 @@ function getIngredientIndex(){
   const list = [];
   groups.forEach((g, key) => {
     if (total > 0 && (g.rollIds.size / total) >= UNIVERSAL_INGREDIENT_RATIO) return;
-    let label = '', best = -1;
-    g.labelCounts.forEach((count, l) => { if (count > best){ best = count; label = l; } });
+    // Grouped families (ingredientGroups.js) use their own curated label;
+    // everything else falls back to the most common raw spelling, as before.
+    const curatedLabel = (typeof INGREDIENT_GROUP_LABEL !== 'undefined') ? INGREDIENT_GROUP_LABEL[key] : undefined;
+    let label = curatedLabel;
+    if (!label){
+      let best = -1;
+      g.labelCounts.forEach((count, l) => { if (count > best){ best = count; label = l; } });
+    }
     list.push({ key, label, rollIds: g.rollIds, setIds: g.setIds });
   });
   list.sort((a, b) => a.label.localeCompare(b.label, 'pl'));
@@ -135,6 +168,10 @@ function getIngredientIndex(){
  * samego powodu co buildPhotoNameTile, korzeniem jest div z rolą
  * "button", nie <button> -- może teraz zawierać zagnieżdżony
  * interaktywny przycisk.
+ *
+ * `onVersus`, jeśli podany, dorysowuje przycisk "VS" (dodaj/usuń z
+ * porównania Versus) -- zawsze PRZED `onPlus`, czyli po jego lewej
+ * stronie.
  */
 function buildResultRow(item, opts){
   opts = opts || {};
@@ -154,6 +191,9 @@ function buildResultRow(item, opts){
     el('div', { class: 'result-name' }, item.name),
     opts.subLabel ? el('div', { class: 'result-type' }, opts.subLabel) : null,
   ]));
+  if (opts.onVersus){
+    row.appendChild(buildVersusToggleBtn(item.id, opts.onVersus, { className: 'result-row__vs', label: 'VS', name: item.name }));
+  }
   if (opts.onPlus){
     row.appendChild(el('button', {
       class: 'result-row__plus',
@@ -177,8 +217,13 @@ function buildResultRow(item, opts){
  * tej rolki), niezależna od kliknięcia w samą kartę. Ponieważ kafelek
  * może teraz zawierać zagnieżdżony interaktywny przycisk, korzeniem
  * jest div z rolą "button" i obsługą klawiatury (ten sam wzorzec co
- * flip-card w cards.js), a nie <button>. */
-function buildPhotoNameTile(item, count, onClick, onPlus){
+ * flip-card w cards.js), a nie <button>.
+ *
+ * `onVersus`, jeśli podany, dorysowuje przycisk "VS" w tym samym rogu,
+ * PRZED (na lewo od) "+" -- gdy oba są podane, "+" przesuwa się w
+ * prawo (`roll-picker-tile__plus--shifted`), żeby nie nachodziły na
+ * siebie. */
+function buildPhotoNameTile(item, count, onClick, onPlus, onVersus){
   const tile = el('div', {
     class: 'roll-picker-tile', tabindex: '0', role: 'button', 'aria-label': item.name,
     onClick,
@@ -192,9 +237,12 @@ function buildPhotoNameTile(item, count, onClick, onPlus){
   img.addEventListener('error', () => { img.style.visibility = 'hidden'; });
   photo.appendChild(img);
   if (typeof count === 'number') photo.appendChild(el('span', { class: 'roll-picker-tile__count' }, String(count)));
+  if (onVersus){
+    photo.appendChild(buildVersusToggleBtn(item.id, onVersus, { className: 'roll-picker-tile__vs', label: 'VS', name: item.name }));
+  }
   if (onPlus){
     photo.appendChild(el('button', {
-      class: 'roll-picker-tile__plus',
+      class: 'roll-picker-tile__plus' + (onVersus ? ' roll-picker-tile__plus--shifted' : ''),
       'aria-label': 'Zbuduj zestaw od: ' + item.name,
       onClick: (e) => { e.stopPropagation(); onPlus(); },
     }, iconEl('plus')));
@@ -265,7 +313,10 @@ function switchSearchMode(mode){
     input.placeholder = cfg ? cfg.placeholder : '';
   }
   renderSearchBody();
-  if (input) input.focus();
+  // Celowo BEZ input.focus() -- na telefonie fokus na polu tekstowym od razu
+  // wysuwa klawiaturę, więc samo przełączenie zakładki (Wszystko/Zestawy/Inne/
+  // Wg rolek/Składniki) nie powinno jej otwierać. Pole aktywuje się dopiero,
+  // gdy użytkownik sam w nie stuknie.
 }
 
 /**
@@ -286,7 +337,7 @@ function startBuildingSet(rollId){
     input.placeholder = cfg ? cfg.placeholder : '';
   }
   renderSearchBody();
-  if (input) input.focus();
+  // Też bez input.focus() -- ten sam powód co w switchSearchMode powyżej.
 }
 
 // ---------------------------------------------------------
@@ -319,7 +370,8 @@ function renderAllMode(body){
         item,
         count,
         () => { SearchState.selectedId = item.id; renderSearchBody(); },
-        isBuildableRoll ? () => startBuildingSet(item.id) : null
+        isBuildableRoll ? () => startBuildingSet(item.id) : null,
+        () => renderSearchBody()
       ));
     });
     body.appendChild(grid);
@@ -336,6 +388,7 @@ function renderAllMode(body){
     subLabel: r._type === 'set' ? 'ZESTAW' : 'ROLKA',
     badge: Math.round(r._score * 100) + '%',
     onPlus: (r._type === 'roll' && rollsInSets.has(r.id)) ? () => startBuildingSet(r.id) : null,
+    onVersus: () => renderSearchBody(),
   })));
 }
 
@@ -351,10 +404,13 @@ function renderSetsMode(body){
   }
 
   const grid = el('div', { class: 'roll-picker-grid' });
-  list.forEach(set => grid.appendChild(buildPhotoNameTile(set, null, () => {
-    SearchState.selectedId = set.id;
-    renderSearchBody();
-  })));
+  list.forEach(set => grid.appendChild(buildPhotoNameTile(
+    set,
+    null,
+    () => { SearchState.selectedId = set.id; renderSearchBody(); },
+    null,
+    () => renderSearchBody()
+  )));
   body.appendChild(grid);
 }
 
@@ -383,10 +439,13 @@ function renderOtherMode(body){
   }
 
   const grid = el('div', { class: 'roll-picker-grid' });
-  list.forEach(roll => grid.appendChild(buildPhotoNameTile(roll, null, () => {
-    SearchState.selectedId = roll.id;
-    renderSearchBody();
-  })));
+  list.forEach(roll => grid.appendChild(buildPhotoNameTile(
+    roll,
+    null,
+    () => { SearchState.selectedId = roll.id; renderSearchBody(); },
+    null,
+    () => renderSearchBody()
+  )));
   body.appendChild(grid);
 }
 
@@ -448,7 +507,8 @@ function renderSetsByRollsMode(body){
         const input = document.getElementById('searchInput');
         if (input) input.value = '';
         renderSearchBody();
-      }
+      },
+      () => renderSearchBody()
     )));
   }
   body.appendChild(grid);
@@ -465,7 +525,7 @@ function renderSetsByRollsMode(body){
   }
 
   body.appendChild(el('div', { class: 'view-sub' }, `Zestawy zawierające wszystkie wybrane rolki (${scored.length}):`));
-  scored.forEach(set => body.appendChild(buildResultRow(set, { subLabel: 'ZESTAW' })));
+  scored.forEach(set => body.appendChild(buildResultRow(set, { subLabel: 'ZESTAW', onVersus: () => renderSearchBody() })));
 }
 
 function renderIngredientsMode(body){
@@ -586,7 +646,7 @@ function renderSearchBody(){
       iconEl('arrowLeft'), 'Do wyników',
     ]);
     body.appendChild(back);
-    body.appendChild(item.id[0] === 's' ? renderSetDetailBlock(item) : renderRollDetailBlock(item));
+    body.appendChild(item.id[0] === 's' ? renderSetDetailBlock(item, renderSearchBody) : renderRollDetailBlock(item, renderSearchBody));
     return;
   }
 
