@@ -173,13 +173,24 @@ function getIngredientIndex(){
  * porównania Versus) -- zawsze PRZED `onPlus`, czyli po jego lewej
  * stronie.
  *
- * Gdy `item.price` jest znane, tuż PRZED tymi przyciskami (po prawej
- * od `.result-info`) dorysowuje się mała złota etykieta ceny
- * (`result-row__price`) -- dodawana jako bezpośrednie dziecko
- * `.result-row` (a nie do środka `.result-info`), bo ten wiersz jest
- * już flex-em: inline-flex wrzucony między zwykłe blokowe divy
- * (`.result-name`/`.result-type`) dostałby anonymous-box z fantomowym
- * odstępem, dokładnie ten sam błąd co kiedyś w `.detail-body`. */
+ * Gdy `item.price` jest znane, mała złota etykieta ceny
+ * (`result-row__price`) trafia razem z odznakami (VS/+/procent) do
+ * wspólnego wrappera `.result-row__meta` -- flex sibling `.result-info`
+ * (a nie jego dziecko), z tego samego powodu co poprzednio:
+ * `.result-info` to zwykły blokowy div, więc coś inline-flex wepchnięte
+ * między jego `.result-name`/`.result-type` dostałoby anonymous-box z
+ * fantomowym odstępem, dokładnie ten sam błąd co kiedyś w
+ * `.detail-body`.
+ *
+ * Wewnątrz `.result-row__meta` cena i grupa odznak (`.result-row__badges`,
+ * druga zagnieżdżona flex-grupa) to dwa flex-dzieci. Domyślnie (telefon --
+ * patrz base-style w style.css, nie ma osobnego mobilnego media query, bo
+ * cały plik jest mobile-first) wrapper jest kolumną, a `order` ustawia
+ * odznaki NAD ceną: cztery odznaki obok siebie w jednym rzędzie zabrałyby
+ * za dużo szerokości i złamałyby `.result-name` na 2-3 linijki. Od 720px
+ * (`@media (min-width:720px)`) wrapper wraca do jednego poziomego rzędu w
+ * kolejności z DOM-u (cena, potem odznaki) -- czyli dokładnie tak, jak
+ * wyglądało to przed tą zmianą. */
 function buildResultRow(item, opts){
   opts = opts || {};
   const onClick = opts.onClick || (() => { SearchState.selectedId = item.id; renderSearchBody(); });
@@ -198,19 +209,29 @@ function buildResultRow(item, opts){
     el('div', { class: 'result-name' }, item.name),
     opts.subLabel ? el('div', { class: 'result-type' }, opts.subLabel) : null,
   ]));
-  const priceLabel = formatPrice(item.price);
-  if (priceLabel) row.appendChild(el('span', { class: 'result-row__price' }, priceLabel));
+
+  const badges = [];
   if (opts.onVersus){
-    row.appendChild(buildVersusToggleBtn(item.id, opts.onVersus, { className: 'result-row__vs', label: 'VS', name: item.name }));
+    badges.push(buildVersusToggleBtn(item.id, opts.onVersus, { className: 'result-row__vs', label: 'VS', name: item.name }));
   }
   if (opts.onPlus){
-    row.appendChild(el('button', {
+    badges.push(el('button', {
       class: 'result-row__plus',
       'aria-label': 'Zbuduj zestaw od: ' + item.name,
       onClick: (e) => { e.stopPropagation(); opts.onPlus(); },
     }, iconEl('plus')));
   }
-  if (opts.badge) row.appendChild(el('span', { class: 'match-badge' }, opts.badge));
+  if (opts.badge) badges.push(el('span', { class: 'match-badge' }, opts.badge));
+
+  const priceLabel = formatPrice(item.price);
+  const priceEl = priceLabel ? el('span', { class: 'result-row__price' }, priceLabel) : null;
+
+  if (priceEl || badges.length){
+    row.appendChild(el('div', { class: 'result-row__meta' }, [
+      priceEl,
+      badges.length ? el('div', { class: 'result-row__badges' }, badges) : null,
+    ]));
+  }
   return row;
 }
 
