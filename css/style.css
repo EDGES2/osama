@@ -482,6 +482,13 @@ a{ color:inherit; }
    the button in place for layout consistency, just inert. */
 .detail-versus-btn.is-disabled{ opacity:.4; cursor:not-allowed; }
 .detail-versus-btn.is-disabled:hover{ background:var(--rice); }
+/* Groups the Versus toggle with the optional "+ Buduj zestaw" pill
+   (renderRollDetailBlock, render.js) as a single flex item inside
+   .detail-name-row -- keeps that row's justify-content:space-between
+   reading as "name left, actions right" instead of spreading two
+   independent buttons apart from the name. flex-wrap so the pair can
+   drop to two lines on very narrow phones rather than overflow. */
+.detail-actions{ display:flex; align-items:center; gap:8px; flex:none; flex-wrap:wrap; }
 .img-missing{
   display:flex; align-items:center; justify-content:center; text-align:center; padding:12px;
   aspect-ratio:4/3; min-height:160px;

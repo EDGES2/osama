@@ -224,17 +224,37 @@ function buildVersusToggleBtn(itemId, onToggle, opts){
  * `onVersusChange`, if given, is called after the Versus toggle button is
  * clicked so the caller can re-render its own root (this block itself
  * doesn't re-render -- it's a one-shot element tree like the rest of
- * render.js). */
+ * render.js).
+ *
+ * Name row carries two pill buttons in a `.detail-actions` group (kept
+ * out of `.detail-name-row` itself so its `justify-content:space-between`
+ * still reads as "name left, one group right" instead of spreading three
+ * items apart): the existing Versus toggle, and -- only when this roll
+ * is actually a member of at least one set (`getRollsInSets()`, search.js;
+ * same guard `renderAllMode` uses before handing a tile an `onPlus`) -- a
+ * second pill that calls `startBuildingSet(roll.id)` (search.js), the same
+ * "+" action available on tiles/rows elsewhere: switches to the "Wg rolek"
+ * search mode with this roll pre-selected. Omitted entirely rather than
+ * shown disabled when the roll isn't in any set, matching how the plain
+ * "+" is simply never drawn on tiles/rows for such rolls. */
 function renderRollDetailBlock(roll, onVersusChange){
   const metaParts = [];
   if (roll.count > 1) metaParts.push(roll.count + ' szt');
   if (roll.weightGrams != null) metaParts.push('~' + roll.weightGrams + ' g');
+  const canBuildSet = getRollsInSets().has(roll.id);
   return el('div', { class: 'detail-head detail-head--roll' }, [
     buildPhotoBox(roll.image, roll.name, { ticket: formatTicket(roll.id), stamp: roll.needsSauce }),
     el('div', { class: 'detail-body' }, [
       el('div', { class: 'detail-name-row' }, [
         el('h2', { class: 'detail-name' }, roll.name),
-        buildVersusToggleBtn(roll.id, onVersusChange, { className: 'detail-versus-btn', name: roll.name }),
+        el('div', { class: 'detail-actions' }, [
+          buildVersusToggleBtn(roll.id, onVersusChange, { className: 'detail-versus-btn', name: roll.name }),
+          canBuildSet ? el('button', {
+            class: 'detail-versus-btn',
+            'aria-label': 'Zbuduj zestaw od: ' + roll.name,
+            onClick: () => startBuildingSet(roll.id),
+          }, '+ Buduj zestaw') : null,
+        ]),
       ]),
       buildPriceTag(roll.price),
       metaParts.length ? el('p', { class: 'flip-card__meta' }, metaParts.join(' · ')) : null,
