@@ -448,6 +448,8 @@ function renderVersusView(root){
       'aria-label': 'Usuń z porównania: ' + roll.name,
       onClick: () => { toggleVersus(roll.id); renderVersusView(root); },
     }, iconEl('close')));
+    const priceLabel = formatPrice(roll.price);
+    if (priceLabel) photoBox.appendChild(el('span', { class: 'versus-col__price' }, priceLabel));
     col.appendChild(photoBox);
     col.appendChild(el('div', { class: 'versus-col__name' }, roll.name));
     if (originLabel){

@@ -130,6 +130,7 @@ def main():
         clean_rolls.append({
             'id': rid,
             'type': 'roll',
+            'idx': r['idx'],
             'name': r['name'],
             'count': r['count'],
             'weight_g': r['weight_g'],

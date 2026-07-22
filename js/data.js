@@ -15,6 +15,13 @@
 // other roll carries the same shape with null grams/qty/weightGrams. Filling
 // one in later is just replacing that null with a number -- no other file
 // needs to change (render.js/cards.js show it automatically when present).
+//
+// `price` (on both a ROLLS entry and a SETS entry) is the menu price in PLN,
+// same "null until known" convention as weightGrams above -- it's entirely
+// optional, so leave it null for anything not priced yet. Once set to a
+// number, render.js/cards.js pick it up automatically and show it as a
+// small gold price tag on the flashcard and on the detail view; nothing
+// else needs to change.
 var ROLLS = [
   {
     "id": "r001",
@@ -32,6 +39,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 42,
     "image": "images/r001.webp"
   },
   {
@@ -49,6 +57,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 42,
     "image": "images/r002.webp"
   },
   {
@@ -67,6 +76,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 46,
     "image": "images/r003.webp"
   },
   {
@@ -85,6 +95,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 42,
     "image": "images/r004.webp"
   },
   {
@@ -103,6 +114,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 43,
     "image": "images/r005.webp"
   },
   {
@@ -120,6 +132,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 38,
     "image": "images/r006.webp"
   },
   {
@@ -139,6 +152,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 69,
     "image": "images/r007.webp"
   },
   {
@@ -156,6 +170,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 58,
     "image": "images/r008.webp"
   },
   {
@@ -174,6 +189,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 63,
     "image": "images/r009.webp"
   },
   {
@@ -192,6 +208,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 56,
     "image": "images/r010.webp"
   },
   {
@@ -209,6 +226,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 53,
     "image": "images/r011.webp"
   },
   {
@@ -225,6 +243,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 40,
     "image": "images/r012.webp"
   },
   {
@@ -242,6 +261,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 42,
     "image": "images/r013.webp"
   },
   {
@@ -259,6 +279,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 37,
     "image": "images/r014.webp"
   },
   {
@@ -276,6 +297,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 35,
     "image": "images/r015.webp"
   },
   {
@@ -293,6 +315,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 38,
     "image": "images/r016.webp"
   },
   {
@@ -310,6 +333,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 36,
     "image": "images/r017.webp"
   },
   {
@@ -325,6 +349,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 28,
     "image": "images/r018.webp"
   },
   {
@@ -342,6 +367,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 41,
     "image": "images/r019.webp"
   },
   {
@@ -361,6 +387,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 57,
     "image": "images/r020.webp"
   },
   {
@@ -380,6 +407,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 52,
     "image": "images/r021.webp"
   },
   {
@@ -396,6 +424,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 49,
     "image": "images/r022.webp"
   },
   {
@@ -414,6 +443,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 38,
     "image": "images/r023.webp"
   },
   {
@@ -431,6 +461,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 41,
     "image": "images/r024.webp"
   },
   {
@@ -450,6 +481,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 46,
     "image": "images/r025.webp"
   },
   {
@@ -469,6 +501,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 58,
     "image": "images/r026.webp"
   },
   {
@@ -484,6 +517,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 22,
     "image": "images/r027.webp"
   },
   {
@@ -499,6 +533,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 21,
     "image": "images/r028.webp"
   },
   {
@@ -514,6 +549,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 23,
     "image": "images/r029.webp"
   },
   {
@@ -530,6 +566,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 21,
     "image": "images/r030.webp"
   },
   {
@@ -547,6 +584,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 41,
     "image": "images/r031.webp"
   },
   {
@@ -565,6 +603,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 70,
     "image": "images/r032.webp"
   },
   {
@@ -584,6 +623,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 51,
     "image": "images/r033.webp"
   },
   {
@@ -598,6 +638,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 56,
     "image": "images/r034.webp"
   },
   {
@@ -612,6 +653,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 36,
     "image": "images/r035.webp"
   },
   {
@@ -635,6 +677,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 45,
     "image": "images/r036.webp"
   },
   {
@@ -648,6 +691,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 19,
     "image": "images/r037.webp"
   },
   {
@@ -661,6 +705,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 22,
     "image": "images/r038.webp"
   },
   {
@@ -674,6 +719,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 25,
     "image": "images/r039.webp"
   },
   {
@@ -687,6 +733,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 21,
     "image": "images/r040.webp"
   },
   {
@@ -701,6 +748,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 21,
     "image": "images/r041.webp"
   },
   {
@@ -715,6 +763,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 21,
     "image": "images/r042.webp"
   },
   {
@@ -729,6 +778,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 27,
     "image": "images/r043.webp"
   },
   {
@@ -742,6 +792,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 25,
     "image": "images/r044.webp"
   },
   {
@@ -760,6 +811,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 63,
     "image": "images/r045.webp"
   },
   {
@@ -773,6 +825,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 25,
     "image": "images/r046.webp"
   },
   {
@@ -785,6 +838,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 23,
     "image": "images/r047.webp"
   },
   {
@@ -801,6 +855,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 24,
     "image": "images/r048.webp"
   },
   {
@@ -813,12 +868,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 22,
     "image": "images/r049.webp"
   },
   {
     "id": "r050",
     "name": "Ognisty Smok",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -830,12 +886,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 50,
     "image": "images/r050.webp"
   },
   {
     "id": "r051",
     "name": "Okinava roll",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -850,6 +907,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 65,
     "image": "images/r051.webp"
   },
   {
@@ -871,12 +929,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 39,
     "image": "images/r052.webp"
   },
   {
     "id": "r053",
     "name": "Philadelphia grill z mango",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -887,12 +946,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 45,
     "image": "images/r053.webp"
   },
   {
     "id": "r054",
     "name": "Philadelphia klasyczna z łososiem",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -901,12 +961,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 51,
     "image": "images/r054.webp"
   },
   {
     "id": "r055",
     "name": "Philadelphia sezam",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -916,12 +977,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 25,
     "image": "images/r055.webp"
   },
   {
     "id": "r056",
     "name": "Philadelphia z krewetką tygrysią",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -931,12 +993,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 43,
     "image": "images/r056.webp"
   },
   {
     "id": "r057",
     "name": "Philadelphia z krewetką tygrysią MAXI",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -947,12 +1010,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 60,
     "image": "images/r057.webp"
   },
   {
     "id": "r058",
     "name": "Philadelphia z łososiem",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -962,12 +1026,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 40,
     "image": "images/r058.webp"
   },
   {
     "id": "r059",
     "name": "Philadelphia z łososiem i surimi",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -978,12 +1043,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 40,
     "image": "images/r059.webp"
   },
   {
     "id": "r060",
     "name": "Philadelphia z łososiem MAXI",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -994,12 +1060,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 55,
     "image": "images/r060.webp"
   },
   {
     "id": "r061",
     "name": "Philadelphia z tuńczykiem",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1010,12 +1077,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 53,
     "image": "images/r061.webp"
   },
   {
     "id": "r062",
     "name": "Philadelphia z tuńczykiem MAXI",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1027,12 +1095,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 59,
     "image": "images/r062.webp"
   },
   {
     "id": "r063",
     "name": "Philadelphia z wędzonym łososiem",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1042,12 +1111,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 40,
     "image": "images/r063.webp"
   },
   {
     "id": "r064",
     "name": "Philadelphia z wędzonym łososiem MAXI",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1058,12 +1128,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 54,
     "image": "images/r064.webp"
   },
   {
     "id": "r065",
     "name": "Philadelphia z węgorzem",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1075,12 +1146,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 65,
     "image": "images/r065.webp"
   },
   {
     "id": "r066",
     "name": "Philadelphia z węgorzem MAXI",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1093,12 +1165,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 95,
     "image": "images/r066.webp"
   },
   {
     "id": "r067",
     "name": "Premium Autorski Awokado Roll",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1111,12 +1184,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 49,
     "image": "images/r067.webp"
   },
   {
     "id": "r068",
     "name": "Premium Grill Gold Roll",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1128,12 +1202,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 70,
     "image": "images/r068.webp"
   },
   {
     "id": "r069",
     "name": "Premium King Roll",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1145,12 +1220,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 66,
     "image": "images/r069.webp"
   },
   {
     "id": "r070",
     "name": "Premium Kioto Roll",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1162,12 +1238,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 103,
     "image": "images/r070.webp"
   },
   {
     "id": "r071",
     "name": "Roll Kiboto",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1180,12 +1257,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 46,
     "image": "images/r071.webp"
   },
   {
     "id": "r072",
     "name": "Roll Orange",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Papier sojowy", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1198,12 +1276,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 66,
     "image": "images/r072.webp"
   },
   {
     "id": "r073",
     "name": "Roll Sunrise",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1216,12 +1295,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 59,
     "image": "images/r073.webp"
   },
   {
     "id": "r074",
     "name": "Roll Yakudza",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1233,12 +1313,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 43,
     "image": "images/r074.webp"
   },
   {
     "id": "r075",
     "name": "Sakura roll",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Papier sojowy", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1252,12 +1333,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 63,
     "image": "images/r075.webp"
   },
   {
     "id": "r076",
     "name": "Spicy Roll",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1271,12 +1353,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 53,
     "image": "images/r076.webp"
   },
   {
     "id": "r077",
     "name": "Tempura Banzai",
-    "count": 1,
+    "count": 10,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1289,12 +1372,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 41,
     "image": "images/r077.webp"
   },
   {
     "id": "r078",
     "name": "Tempura cheese",
-    "count": 1,
+    "count": 10,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1306,12 +1390,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 32,
     "image": "images/r078.webp"
   },
   {
     "id": "r079",
     "name": "Tempura Ebi",
-    "count": 1,
+    "count": 10,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1324,12 +1409,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 37,
     "image": "images/r079.webp"
   },
   {
     "id": "r080",
     "name": "Tempura mieszana",
-    "count": 1,
+    "count": 10,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1344,12 +1430,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 41,
     "image": "images/r080.webp"
   },
   {
     "id": "r081",
     "name": "Tempura Surimi",
-    "count": 1,
+    "count": 10,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1361,12 +1448,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 31,
     "image": "images/r081.webp"
   },
   {
     "id": "r082",
     "name": "Tempura tatar z łososia",
-    "count": 1,
+    "count": 10,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1379,12 +1467,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 41,
     "image": "images/r082.webp"
   },
   {
     "id": "r083",
     "name": "Tempura Unagi",
-    "count": 1,
+    "count": 10,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1398,12 +1487,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 54,
     "image": "images/r083.webp"
   },
   {
     "id": "r084",
     "name": "Yami Roll",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1416,6 +1506,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 42,
     "image": "images/r084.webp"
   },
   {
@@ -1437,12 +1528,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 35,
     "image": "images/r085.webp"
   },
   {
     "id": "r086",
     "name": "Zielony Smok",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1456,12 +1548,13 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": true,
+    "price": 46,
     "image": "images/r086.webp"
   },
   {
     "id": "r087",
     "name": "Złoty Smok",
-    "count": 1,
+    "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": null },
       { "name": "Ryż", "grams": null, "qty": null },
@@ -1473,6 +1566,7 @@ var ROLLS = [
     ],
     "weightGrams": null,
     "needsSauce": false,
+    "price": 57,
     "image": "images/r087.webp"
   },
   {
@@ -1496,6 +1590,7 @@ var ROLLS = [
     ],
     "weightGrams": 465,
     "needsSauce": true,
+    "price": null,
     "image": "images/r088.jpg"
   },
   {
@@ -1516,6 +1611,7 @@ var ROLLS = [
     ],
     "weightGrams": 385,
     "needsSauce": true,
+    "price": null,
     "image": "images/r089.jpg"
   },
   {
@@ -1537,6 +1633,7 @@ var ROLLS = [
     ],
     "weightGrams": 410,
     "needsSauce": true,
+    "price": null,
     "image": "images/r090.jpg"
   }
 ];
@@ -1573,6 +1670,7 @@ var SETS = [
         "portion": "full"
       }
     ],
+    "price": 100,
     "image": "images/s001.webp"
   },
   {
@@ -1606,6 +1704,7 @@ var SETS = [
         "portion": "full"
       }
     ],
+    "price": 133,
     "image": "images/s002.webp"
   },
   {
@@ -1639,6 +1738,7 @@ var SETS = [
         "portion": "full"
       }
     ],
+    "price": 133,
     "image": "images/s003.webp"
   },
   {
@@ -1667,6 +1767,7 @@ var SETS = [
         "portion": "full"
       }
     ],
+    "price": 112,
     "image": "images/s004.webp"
   },
   {
@@ -1700,6 +1801,7 @@ var SETS = [
         "portion": "full"
       }
     ],
+    "price": 154,
     "image": "images/s005.webp"
   },
   {
@@ -1739,6 +1841,7 @@ var SETS = [
         "bonus": true
       }
     ],
+    "price": 149,
     "image": "images/s006.webp"
   },
   {
@@ -1777,6 +1880,7 @@ var SETS = [
         "portion": "full"
       }
     ],
+    "price": 80,
     "image": "images/s007.webp"
   },
   {
@@ -1815,6 +1919,7 @@ var SETS = [
         "portion": "full"
       }
     ],
+    "price": 192,
     "image": "images/s008.webp"
   },
   {
@@ -1848,6 +1953,7 @@ var SETS = [
         "portion": "half"
       }
     ],
+    "price": 106,
     "image": "images/s009.webp"
   },
   {
@@ -1876,6 +1982,7 @@ var SETS = [
         "portion": "full"
       }
     ],
+    "price": 235,
     "image": "images/s010.webp"
   },
   {
@@ -1909,6 +2016,7 @@ var SETS = [
         "portion": "full"
       }
     ],
+    "price": 177,
     "image": "images/s011.webp"
   },
   {
@@ -1947,6 +2055,7 @@ var SETS = [
         "portion": "full"
       }
     ],
+    "price": 202,
     "image": "images/s012.webp"
   },
   {
@@ -1980,6 +2089,7 @@ var SETS = [
         "portion": "half"
       }
     ],
+    "price": 112,
     "image": "images/s013.webp"
   },
   {
@@ -2013,6 +2123,7 @@ var SETS = [
         "portion": "full"
       }
     ],
+    "price": 159,
     "image": "images/s014.webp"
   },
   {
@@ -2041,6 +2152,7 @@ var SETS = [
         "portion": "full"
       }
     ],
+    "price": 256,
     "image": "images/s015.webp"
   },
   {
@@ -2074,6 +2186,7 @@ var SETS = [
         "portion": "full"
       }
     ],
+    "price": 112,
     "image": "images/s016.webp"
   },
   {
@@ -2112,6 +2225,7 @@ var SETS = [
         "portion": "full"
       }
     ],
+    "price": 235,
     "image": "images/s017.webp"
   },
   {
@@ -2145,6 +2259,7 @@ var SETS = [
         "portion": "full"
       }
     ],
+    "price": 151,
     "image": "images/s018.webp"
   },
   {
@@ -2168,6 +2283,7 @@ var SETS = [
         "portion": "full"
       }
     ],
+    "price": 102,
     "image": "images/s019.webp"
   },
   {
@@ -2191,6 +2307,7 @@ var SETS = [
         "portion": "full"
       }
     ],
+    "price": 123,
     "image": "images/s020.webp"
   },
   {
@@ -2239,6 +2356,7 @@ var SETS = [
         "portion": "full"
       }
     ],
+    "price": 138,
     "image": "images/s021.webp"
   },
   {
@@ -2272,6 +2390,7 @@ var SETS = [
         "portion": "full"
       }
     ],
+    "price": 120,
     "image": "images/s022.webp"
   },
   {
@@ -2295,6 +2414,7 @@ var SETS = [
         "portion": "full"
       }
     ],
+    "price": 117,
     "image": "images/s023.webp"
   },
   {
@@ -2318,6 +2438,7 @@ var SETS = [
         "portion": "full"
       }
     ],
+    "price": 68,
     "image": "images/s024.webp"
   }
 ];

@@ -159,7 +159,54 @@ teraz ten mechanizm działa dla dowolnej pozycji, automatycznie).
    python3 rename_images.py --source-dir ../images --apply --mode copy
    ```
 
-### Grammatura / ilość poszczególnych składników (nowość)
+### Dopisywanie kolejnych pozycji (nie trzeba nic „trzymać" ręcznie)
+
+Pipeline zawsze przelicza **cały** `original_menu.txt`/`exact_filenames.txt`
+od nowa — nie ma trybu "dopisz tylko te 5 nowych". To jednak nie znaczy,
+że trzeba pilnować starych zdjęć czy ręcznie nic nie psuć:
+
+- Po `--apply-rename` `rename_images.py` sam **synchronizuje
+  `exact_filenames.txt`** — zamienia stare, długie nazwy na już
+  nadane kanoniczne (`r001.webp`, ...). Dzięki temu przy kolejnym
+  uruchomieniu stare 111 pozycji to zawsze **no-op** (źródło = cel,
+  fizycznie nic się nie dzieje, w logu tylko jedna zbiorcza linijka
+  `(+ ще N позицій вже мають канонічне ім'я)`) — realnie
+  przemianowywane są tylko nowo dopisane linijki. Robi się
+  automatyczna kopія `exact_filenames.txt.bak` na wszelki wypadek.
+- Nie trzeba więc "trzymać" starych zdjęć pod starymi nazwami — po
+  pierwszym `--apply-rename` wszystko już jest pod krótkimi nazwami, i
+  tak zostaje.
+
+**Żeby dodać N nowych pozycji:**
+
+1. Wrzuć N nowych zdjęć do `images/` (dowolne nazwy — długie opisowe
+   albo już od razu krótkie, bez znaczenia).
+2. Dopisz N linijek **na końcu** `original_menu.txt` (ew. z
+   grammaturą/`waga:`, patrz niżej) i N odpowiadających linijek **na
+   końcu** `exact_filenames.txt` (te same, w tej samej kolejności).
+3. `./regenerate.sh --apply-rename`.
+
+**Ważne: zawsze dopisuj na końcu, nigdy nie wstawiaj w środku ani nie
+zmieniaj kolejności istniejących linijek.** `id` (`r001`, `r002`, ...)
+nadawane jest po pozycji linijki w pliku — wstawienie czegoś w środku
+przesunie `id` wszystkich pozycji PO nim (a razem z tym — nazwy już
+przemianowanych zdjęć, i wszelkie ręczne odwołania do starych `id` w
+`js/data.js`, jeśli jakieś tam wprowadziłaś/eś ręcznie).
+
+**Pipeline teraz zatrzymuje się (kod wyjścia ≠ 0, `set -e` w
+`regenerate.sh` przerywa dalsze kroki), jeśli jakaś linijka się NIE
+sparsuje** (`NO DIGIT` / `META NO MATCH` / `SET NO MATCH` w konsoli) —
+zamiast po cichu ją pominąć i i tak przemianować resztę zdjęć (to był
+błąd we wcześniejszej wersji tego pipeline'u — pozycja po prostu
+znikała bez ostrzeżenia). Najczęstsza przyczyna: **nazwa pozycji nie
+może zawierać cyfry** (np. "Rolka 2 w 1") — parser szuka pierwszej
+cyfry w linijce, żeby oddzielić nazwę od wagi, więc cyfra w samej
+nazwie zbija ten podział. Jeśli naprawdę tego potrzebujesz, dopisz
+`--allow-errors` do `parse_source.py` (przez zmienną w
+`regenerate.sh`) — ale wtedy ta pozycja po prostu zniknie z wyniku,
+więc lepiej po prostu przeformułować nazwę.
+
+
 
 Domyślnie nic się nie zmienia — jeśli nie dopiszesz nic dodatkowego,
 każdy składnik dostanie `grams: null, qty: null`, a rolka

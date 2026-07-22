@@ -188,6 +188,11 @@ def main():
                           'файли з довгим описом (за замовч. ../images)')
     ap.add_argument('--out-rolls', default='rolls_parsed.json')
     ap.add_argument('--out-sets', default='sets_raw.json')
+    ap.add_argument('--allow-errors', action='store_true',
+                     help='Не зупинятись, навіть якщо якісь рядки не розпарсились '
+                          '(вони будуть тихо пропущені, як раніше). Небезпечно для '
+                          'повторних прогонів -- лишає позиції поза rolls_clean.json/'
+                          'sets_clean.json.')
     args = ap.parse_args()
 
     orig = read_lines(args.menu)
@@ -199,6 +204,7 @@ def main():
 
     rolls, sets_raw = [], []
     txt_overrides = 0
+    errors = 0
 
     for idx, (line, fname) in enumerate(zip(orig, files)):
         base, ext = split_ext(fname)
@@ -216,6 +222,7 @@ def main():
         core = clean_text(raw_text)
         if not core:
             print("EMPTY LINE:", idx, fname)
+            errors += 1
             continue
 
         if SET_PREFIX_RE.match(core):
@@ -223,11 +230,15 @@ def main():
             if parsed:
                 parsed['source_image'] = source_image
                 sets_raw.append(parsed)
+            else:
+                errors += 1
         else:
             parsed = parse_roll(core, idx)
             if parsed:
                 parsed['source_image'] = source_image
                 rolls.append(parsed)
+            else:
+                errors += 1
 
     with open(args.out_rolls, 'w', encoding='utf-8') as f:
         json.dump(rolls, f, ensure_ascii=False, indent=2)
@@ -237,6 +248,15 @@ def main():
     print(f"\nПозицій: {len(rolls)} ролів, {len(sets_raw)} сетів "
           f"({txt_overrides} із окремого .txt-файлу).")
 
+    if errors and not args.allow_errors:
+        print(f"\nПОМИЛКА: {errors} рядок(ів) НЕ розпарсились (див. NO DIGIT / "
+              f"META NO MATCH / SET NO MATCH / EMPTY LINE вище) і були б тихо "
+              f"пропущені. Зупиняюсь, щоб не перейменувати картинки з неповними "
+              f"даними -- виправ рядок(и) і запусти знову (або, якщо це свідомо, "
+              f"додай --allow-errors).")
+        return 1
+    return 0
+
 
 if __name__ == '__main__':
-    main()
+    raise SystemExit(main())

@@ -222,7 +222,12 @@ function buildResultRow(item, opts){
  * `onVersus`, jeśli podany, dorysowuje przycisk "VS" w tym samym rogu,
  * PRZED (na lewo od) "+" -- gdy oba są podane, "+" przesuwa się w
  * prawo (`roll-picker-tile__plus--shifted`), żeby nie nachodziły na
- * siebie. */
+ * siebie.
+ *
+ * Gdy `item.price` jest znane (formatPrice, render.js), w PRAWYM DOLNYM
+ * rogu zdjęcia -- jedynym rogu jeszcze wolnym od innych odznak --
+ * dorysowuje się mała złota etykieta ceny (`roll-picker-tile__price`),
+ * ten sam wzorzec co `.price-tag` w widoku szczegółów. */
 function buildPhotoNameTile(item, count, onClick, onPlus, onVersus){
   const tile = el('div', {
     class: 'roll-picker-tile', tabindex: '0', role: 'button', 'aria-label': item.name,
@@ -247,6 +252,8 @@ function buildPhotoNameTile(item, count, onClick, onPlus, onVersus){
       onClick: (e) => { e.stopPropagation(); onPlus(); },
     }, iconEl('plus')));
   }
+  const priceLabel = formatPrice(item.price);
+  if (priceLabel) photo.appendChild(el('span', { class: 'roll-picker-tile__price' }, priceLabel));
   tile.appendChild(photo);
   tile.appendChild(el('span', { class: 'roll-picker-tile__name' }, item.name));
   return tile;

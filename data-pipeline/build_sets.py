@@ -134,7 +134,7 @@ def main():
 
         sid = f"s{len(sets_clean) + 1:03d}"
         sets_clean.append({
-            'id': sid, 'type': 'set', 'name': s['name'],
+            'id': sid, 'type': 'set', 'idx': s['idx'], 'name': s['name'],
             'weight_g': s['weight_g'], 'count': s['count'],
             'items': items,
             'source_image': s['source_image'],

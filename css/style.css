@@ -342,6 +342,18 @@ a{ color:inherit; }
   font-family:var(--font-mono); font-size:11px;
   background:var(--wasabi); color:#fff; padding:2px 7px; border-radius:6px;
 }
+/* Optional per-item menu price (data.js `price`, null until entered) --
+   shown as a small gold tag wherever an item's price is known: the
+   flashcard back (cards.js) and the search detail view (renderRollDetailBlock/
+   renderSetDetailBlock in render.js). Absent entirely when price is null. */
+.price-tag{
+  display:inline-flex; align-self:flex-start;
+  font-family:var(--font-mono); font-weight:600; font-size:13px;
+  letter-spacing:.02em;
+  background:var(--gold); color:var(--soy);
+  padding:4px 11px; border-radius:999px;
+  margin-bottom:10px;
+}
 
 .card-nav{
   display:flex; align-items:center; justify-content:space-between; gap:10px;
@@ -429,6 +441,13 @@ a{ color:inherit; }
 
 /* ---------------- Detail view (rolls & sets) ---------------- */
 .detail-head{ display:flex; flex-direction:column; gap:12px; }
+/* Was previously only set inline for sets (render.js) -- rolls had no
+   layout rule here at all, so their .price-tag (display:inline-flex)
+   ended up wrapped in an anonymous block box between block siblings,
+   whose line-box added a large, inconsistent phantom gap above/below
+   it. A real flex column with a fixed gap removes that anonymous-box
+   quirk entirely and gives both rolls and sets the same tidy rhythm. */
+.detail-body{ display:flex; flex-direction:column; gap:12px; }
 .detail-photo{
   width:100%; border-radius:var(--radius-l); overflow:hidden;
   background:var(--ink-2); box-shadow:var(--shadow-card);
@@ -599,6 +618,22 @@ a{ color:inherit; }
 .roll-picker-tile__plus svg{ width:14px; height:14px; }
 .roll-picker-tile__plus:hover{ background:var(--ink-2); }
 .roll-picker-tile__plus--shifted{ left:36px; }
+/* Optional per-item price (data.js `price`, see .price-tag above) --
+   bottom-right corner of the tile photo is the one corner still free
+   (VS top-left, + top-left-shifted, count top-right), so it reads as
+   another at-a-glance badge rather than crowding an existing one. Same
+   translucent dark "ticket" chip as .flip-card__ticket/.roll-picker-tile__count
+   above (reads clean over any photo, unlike a solid fill that can blend
+   into golden-brown sushi tones) -- gold text keeps the same color the
+   app already uses everywhere else to mean "price". */
+.roll-picker-tile__price{
+  position:absolute; bottom:6px; right:6px;
+  font-family:var(--font-mono); font-weight:600; font-size:11px;
+  letter-spacing:.02em;
+  background:rgba(30,26,23,.72); color:var(--gold);
+  padding:3px 8px; border-radius:999px;
+  line-height:1.3; pointer-events:none;
+}
 /* "VS" toggle -- same corner as "+", but a rounded square (not a full
    circle) so the two-letter label reads clearly and the two actions
    stay visually distinct at a glance. Sits to the LEFT of "+" (see
@@ -676,6 +711,17 @@ a{ color:inherit; }
 }
 .versus-col__photo .flip-card__ticket{
   top:6px; left:6px; font-size:10px; padding:3px 6px;
+}
+/* Same price badge as .roll-picker-tile__price (search grid), scaled
+   down to match the narrower versus column photo -- same reasoning as
+   the ticket-badge shrink right above. */
+.versus-col__price{
+  position:absolute; bottom:6px; right:6px;
+  font-family:var(--font-mono); font-weight:600; font-size:10px;
+  letter-spacing:.02em;
+  background:rgba(30,26,23,.72); color:var(--gold);
+  padding:3px 6px; border-radius:999px;
+  line-height:1.3; pointer-events:none;
 }
 .versus-col__remove{
   position:absolute; top:6px; right:6px;

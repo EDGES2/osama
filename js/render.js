@@ -152,6 +152,31 @@ function buildRollRefRow(item){
 function formatTicket(id){ return id.toUpperCase(); }
 
 /**
+ * `price` is a menu price in PLN (see data.js header) -- either a plain
+ * number or null/undefined when not entered yet. Whole złoty amounts
+ * render without decimals ("24 zł"); anything with grosze uses a
+ * comma, Polish-style ("24,50 zł"). Returns null (not a string) when
+ * there's nothing to show, so callers can use it directly in a
+ * ternary without a separate `!= null` check.
+ */
+function formatPrice(price){
+  if (price === null || price === undefined) return null;
+  const isWhole = Number.isInteger(price);
+  const amount = isWhole ? String(price) : price.toFixed(2).replace('.', ',');
+  return amount + ' zł';
+}
+
+/** Small gold price-tag pill, shown wherever an item's optional `price`
+ * (data.js) is present -- flashcard back (cards.js) and detail view
+ * (renderRollDetailBlock/renderSetDetailBlock below). Returns null when
+ * there's no price to show, so callers can splice it straight into an
+ * `el(...)` children array. */
+function buildPriceTag(price){
+  const formatted = formatPrice(price);
+  return formatted ? el('div', { class: 'price-tag' }, formatted) : null;
+}
+
+/**
  * Small pill toggle used anywhere a roll's OR a set's own card/tile is
  * shown -- adds/removes it from the cross-page Versus comparison (see
  * versus.js, loaded after this file but only called at click-time, by
@@ -211,6 +236,7 @@ function renderRollDetailBlock(roll, onVersusChange){
         el('h2', { class: 'detail-name' }, roll.name),
         buildVersusToggleBtn(roll.id, onVersusChange, { className: 'detail-versus-btn', name: roll.name }),
       ]),
+      buildPriceTag(roll.price),
       metaParts.length ? el('p', { class: 'flip-card__meta' }, metaParts.join(' · ')) : null,
       buildIngredientList(roll.ingredients),
     ]),
@@ -254,11 +280,12 @@ function renderSetDetailBlock(set, onVersusChange){
 
   return el('div', { class: 'detail-head detail-head--set' }, [
     buildPhotoBox(set.image, set.name, { ticket: formatTicket(set.id) }),
-    el('div', { class: 'detail-body', style: 'flex:1;display:flex;flex-direction:column;gap:12px;' }, [
+    el('div', { class: 'detail-body' }, [
       el('div', { class: 'detail-name-row' }, [
         el('h2', { class: 'detail-name' }, set.name),
         buildVersusToggleBtn(set.id, onVersusChange, { className: 'detail-versus-btn', name: set.name }),
       ]),
+      buildPriceTag(set.price),
       set.count ? el('p', { class: 'flip-card__meta' }, set.count + ' szt w zestawie') : null,
       membersWrap,
     ]),
