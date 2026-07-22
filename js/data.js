@@ -401,7 +401,7 @@ var ROLLS = [
       { "name": "Ogórek", "grams": 15, "qty": null },
       { "name": "Awokado", "grams": 15, "qty": null },
       { "name": "Krewetka tygrysia", "grams": 35, "qty": null },
-      { "name": "Tobiko", "grams": 10, "qty": null }
+      { "name": "Tobiko", "grams": 10, "qty": null },
       { "name": "Tuńczyk", "grams": 60, "qty": null },
       { "name": "Sos unagi", "grams": 15, "qty": null }
     ],
