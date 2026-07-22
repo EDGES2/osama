@@ -1024,7 +1024,19 @@ a{ color:inherit; }
      centered single-focus block like the quiz screens above. */
   .versus-toolbar{ max-width:900px; width:100%; margin-inline:auto; }
   .versus-col{ width:160px; }
-  .versus-picker{ max-width:900px; width:100%; margin-inline:auto; }
-  .versus-picker__tile{ width:88px; }
-  .versus-picker__tile-photo{ width:88px; height:88px; }
+
+  /* The roll-groups picker (buildVersusRollPicker, versus.js) sits right
+     under the Rolki/Zestawy segmented control -- that control hugs the
+     left edge (.segmented{ align-self:flex-start } above), so the picker
+     should share that same left edge instead of centering itself in a
+     narrower 900px column. Letting it use the full canvas width also
+     gives the tile rows (below) more room per row. */
+  .versus-picker{ max-width:none; width:100%; margin-inline:0; }
+  /* Wrap into rows instead of horizontal-scrolling now that there's
+     room to spread out, and size the tiles up accordingly. The base
+     .versus-picker__row rule (mobile) is untouched, so phones keep the
+     scrolling strip. */
+  .versus-picker__row{ flex-wrap:wrap; overflow-x:visible; }
+  .versus-picker__tile{ width:112px; }
+  .versus-picker__tile-photo{ width:112px; height:112px; }
 }
