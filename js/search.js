@@ -172,7 +172,14 @@ function getIngredientIndex(){
  * `onVersus`, jeśli podany, dorysowuje przycisk "VS" (dodaj/usuń z
  * porównania Versus) -- zawsze PRZED `onPlus`, czyli po jego lewej
  * stronie.
- */
+ *
+ * Gdy `item.price` jest znane, tuż PRZED tymi przyciskami (po prawej
+ * od `.result-info`) dorysowuje się mała złota etykieta ceny
+ * (`result-row__price`) -- dodawana jako bezpośrednie dziecko
+ * `.result-row` (a nie do środka `.result-info`), bo ten wiersz jest
+ * już flex-em: inline-flex wrzucony między zwykłe blokowe divy
+ * (`.result-name`/`.result-type`) dostałby anonymous-box z fantomowym
+ * odstępem, dokładnie ten sam błąd co kiedyś w `.detail-body`. */
 function buildResultRow(item, opts){
   opts = opts || {};
   const onClick = opts.onClick || (() => { SearchState.selectedId = item.id; renderSearchBody(); });
@@ -191,6 +198,8 @@ function buildResultRow(item, opts){
     el('div', { class: 'result-name' }, item.name),
     opts.subLabel ? el('div', { class: 'result-type' }, opts.subLabel) : null,
   ]));
+  const priceLabel = formatPrice(item.price);
+  if (priceLabel) row.appendChild(el('span', { class: 'result-row__price' }, priceLabel));
   if (opts.onVersus){
     row.appendChild(buildVersusToggleBtn(item.id, opts.onVersus, { className: 'result-row__vs', label: 'VS', name: item.name }));
   }

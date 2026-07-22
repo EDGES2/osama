@@ -280,6 +280,8 @@ function buildVersusRollPicker(root){
       img.addEventListener('error', () => { img.style.visibility = 'hidden'; });
       imgWrap.appendChild(img);
       imgWrap.appendChild(el('span', { class: 'versus-picker__tile-check' }, iconEl('check')));
+      const priceLabel = formatPrice(roll.price);
+      if (priceLabel) imgWrap.appendChild(el('span', { class: 'versus-picker__tile-price' }, priceLabel));
       tile.appendChild(imgWrap);
       tile.appendChild(el('span', { class: 'versus-picker__tile-name' }, roll.name));
       row.appendChild(tile);
@@ -328,6 +330,8 @@ function buildVersusSetPicker(root){
     img.addEventListener('error', () => { img.style.visibility = 'hidden'; });
     imgWrap.appendChild(img);
     imgWrap.appendChild(el('span', { class: 'versus-picker__tile-check' }, iconEl('check')));
+    const priceLabel = formatPrice(set.price);
+    if (priceLabel) imgWrap.appendChild(el('span', { class: 'versus-picker__tile-price' }, priceLabel));
     tile.appendChild(imgWrap);
     tile.appendChild(el('span', { class: 'versus-picker__tile-name' }, set.name));
     row.appendChild(tile);
