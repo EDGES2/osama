@@ -1919,7 +1919,7 @@ var SETS = [
   },
   {
     "id": "s005",
-    "name": "Zestaw Tygodnia(20.07-27.07)",
+    "name": "Zestaw Tygodnia(20.07-26.07)",
     "count": null,
     "items": [
       {
