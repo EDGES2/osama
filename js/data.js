@@ -1649,9 +1649,9 @@ var ROLLS = [
       { "name": "Serek philadelphia", "grams": 30, "qty": null },
       { "name": "Awokado", "grams": 20, "qty": null }
     ],
-    "weightGrams": 255,
+    "weightGrams": 240,
     "needsSauce": false,
-    "price": 38,
+    "price": null,
     "image": "images/nofile.jpeg"
   }
 
