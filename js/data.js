@@ -1644,16 +1644,16 @@ var ROLLS = [
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": 0.5 },
       { "name": "Ryż", "grams": 140, "qty": null },
-      { "name": "Sezam czarny", "grams": 15, "qty": null }
+      { "name": "Sezam czarny", "grams": 15, "qty": null },
       { "name": "Łosoś smażony", "grams": 35, "qty": null },
-      { "name": "Serek philadelphia", "grams": 30, "qty" null },
-      { "name": "Awokado", "grams": 20, "qty" null }
+      { "name": "Serek philadelphia", "grams": 30, "qty": null },
+      { "name": "Awokado", "grams": 20, "qty": null }
     ],
     "weightGrams": 255,
     "needsSauce": false,
     "price": 38,
-    "image": "images/nofile.webp"
-  },
+    "image": "images/nofile.jpeg"
+  }
 
 ];
 
@@ -2186,7 +2186,7 @@ var SETS = [
       },
       {
         "name": "California z pieczonym łososiem",
-        "rollId": null,
+        "rollId": "r091",
         "portion": "full"
       },
       {
