@@ -102,6 +102,8 @@ function renderCardsView(root){
   back.appendChild(el('div', { class: 'flip-card__name' }, item.name));
   const priceTag = buildPriceTag(item.price);
   if (priceTag) back.appendChild(priceTag);
+  const commentNote = buildCommentNote(item.comment);
+  if (commentNote) back.appendChild(commentNote);
   if (CardsState.deck === 'rolls'){
     const metaParts = [];
     if (item.count > 1) metaParts.push(item.count + ' szt');

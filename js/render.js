@@ -113,20 +113,30 @@ function buildStamp(){
 }
 
 /**
- * `ingredients` is data.js's { name, grams, qty }[] -- grams/qty are
- * null until that item has been weighed (see data.js header comment).
+ * `ingredients` is data.js's { name, grams, qty, comment }[] -- grams/qty
+ * are null until that item has been weighed (see data.js header comment).
  * Known values render as a small mono tag after the name (e.g.
  * "48 g · ×3"); unweighed ingredients just show the bare name, same
  * as before this field existed.
+ *
+ * `comment` is an optional free-text note on that one ingredient (data.js
+ * header comment) -- for whatever doesn't fit grams/qty, e.g. "podawane
+ * osobno". When present it renders as a second, softer line under the
+ * name+tag row; when absent (the common case) the row looks exactly as
+ * before this field existed.
  */
 function buildIngredientList(ingredients){
   return el('ul', { class: 'ingredient-list' }, ingredients.map(ing => {
     const metaParts = [];
     if (ing.grams != null) metaParts.push(ing.grams + ' g');
     if (ing.qty != null) metaParts.push('×' + ing.qty);
-    return el('li', {}, [
+    const row = el('div', { class: 'ingredient-list__row' }, [
       el('span', { class: 'ingredient-list__name' }, ing.name),
       metaParts.length ? el('span', { class: 'portion-tag' }, metaParts.join(' · ')) : null,
+    ]);
+    return el('li', {}, [
+      row,
+      ing.comment ? el('span', { class: 'ingredient-list__comment' }, ing.comment) : null,
     ]);
   }));
 }
@@ -174,6 +184,18 @@ function formatPrice(price){
 function buildPriceTag(price){
   const formatted = formatPrice(price);
   return formatted ? el('div', { class: 'price-tag' }, formatted) : null;
+}
+
+/** Free-text note for a roll's or set's own top-level `comment` (data.js
+ * header comment) -- anything that doesn't fit the structured fields
+ * (grams/qty/price/etc), e.g. "dostępne na zapytanie", "sos podawany
+ * osobno". Shown right under the price tag on the detail view
+ * (renderRollDetailBlock/renderSetDetailBlock below) and on the
+ * flashcard back (cards.js). Returns null when there's nothing to
+ * show, same convention as buildPriceTag, so callers can splice it
+ * straight into an `el(...)` children array. */
+function buildCommentNote(comment){
+  return comment ? el('div', { class: 'item-comment' }, comment) : null;
 }
 
 /**
@@ -236,7 +258,10 @@ function buildVersusToggleBtn(itemId, onToggle, opts){
  * "+" action available on tiles/rows elsewhere: switches to the "Wg rolek"
  * search mode with this roll pre-selected. Omitted entirely rather than
  * shown disabled when the roll isn't in any set, matching how the plain
- * "+" is simply never drawn on tiles/rows for such rolls. */
+ * "+" is simply never drawn on tiles/rows for such rolls.
+ *
+ * `roll.comment`, if set, renders via buildCommentNote right under the
+ * price tag -- see that function's own doc for what it's for. */
 function renderRollDetailBlock(roll, onVersusChange){
   const metaParts = [];
   if (roll.count > 1) metaParts.push(roll.count + ' szt');
@@ -257,6 +282,7 @@ function renderRollDetailBlock(roll, onVersusChange){
         ]),
       ]),
       buildPriceTag(roll.price),
+      buildCommentNote(roll.comment),
       metaParts.length ? el('p', { class: 'flip-card__meta' }, metaParts.join(' · ')) : null,
       buildIngredientList(roll.ingredients),
     ]),
@@ -265,7 +291,9 @@ function renderRollDetailBlock(roll, onVersusChange){
 
 /** Set detail block: photo+name row (with a Versus toggle for the whole
  * set, same spot as renderRollDetailBlock's), then an accordion of its
- * rolls. `onVersusChange` behaves exactly as in renderRollDetailBlock. */
+ * rolls. `onVersusChange` behaves exactly as in renderRollDetailBlock.
+ * `set.comment`, if set, renders via buildCommentNote right under the
+ * price tag, same as on the roll detail block above. */
 function renderSetDetailBlock(set, onVersusChange){
   const membersWrap = el('div', { class: 'accordion-list', style: 'display:flex;flex-direction:column;gap:10px;' });
 
@@ -306,6 +334,7 @@ function renderSetDetailBlock(set, onVersusChange){
         buildVersusToggleBtn(set.id, onVersusChange, { className: 'detail-versus-btn', name: set.name }),
       ]),
       buildPriceTag(set.price),
+      buildCommentNote(set.comment),
       set.count ? el('p', { class: 'flip-card__meta' }, set.count + ' szt w zestawie') : null,
       membersWrap,
     ]),

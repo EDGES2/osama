@@ -322,12 +322,19 @@ a{ color:inherit; }
   display:flex; flex-direction:column; gap:6px;
 }
 .ingredient-list li{
-  display:flex; align-items:center; justify-content:space-between; gap:8px;
+  display:flex; flex-direction:column; gap:4px;
   font-size:15px; padding:8px 10px;
   background:var(--rice-2);
   border-radius:8px;
 }
+.ingredient-list__row{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
 .ingredient-list__name{ flex:1; min-width:0; }
+/* Optional per-ingredient free-text note (data.js `comment`, see
+   data.js header comment) -- second, softer line under the name+tag
+   row. Absent entirely when the ingredient has no comment. */
+.ingredient-list__comment{
+  font-size:12.5px; color:var(--ink-soft); font-style:italic; line-height:1.35;
+}
 .roll-ref-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
 .roll-ref-list li{
   display:flex; align-items:center; justify-content:space-between; gap:8px;
@@ -352,6 +359,17 @@ a{ color:inherit; }
   letter-spacing:.02em;
   background:var(--gold); color:var(--soy);
   padding:4px 11px; border-radius:999px;
+  margin-bottom:10px;
+}
+/* Optional free-text note (data.js `comment`, roll- or set-level, see
+   data.js header comment) -- shown right under the price tag wherever
+   it appears: the detail view (renderRollDetailBlock/renderSetDetailBlock,
+   render.js) and the flashcard back (cards.js). Absent entirely when
+   comment is null/empty, same convention as .price-tag above. */
+.item-comment{
+  font-size:13px; color:var(--ink-text); font-style:italic;
+  background:var(--rice-2); border-left:3px solid var(--gold);
+  padding:8px 10px; border-radius:8px; line-height:1.4;
   margin-bottom:10px;
 }
 

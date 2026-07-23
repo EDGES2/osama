@@ -22,6 +22,24 @@
 // number, render.js/cards.js pick it up automatically and show it as a
 // small gold price tag on the flashcard and on the detail view; nothing
 // else needs to change.
+//
+// `comment` is a free-text note for anything that doesn't fit the
+// structured fields above -- e.g. "sos podawany osobno", "ostre",
+// "dostępne na zapytanie". It's optional and independent at three
+// separate levels:
+//   - inside one ingredients[] entry -> { name, grams, qty, comment },
+//     a note about that specific ingredient. Shown as a second line
+//     under the ingredient's own name in every ingredient list.
+//   - top-level on a ROLLS entry, sibling of `price` -- a note about
+//     the whole roll. Shown under the price tag on the roll's detail
+//     view and flashcard back.
+//   - top-level on a SETS entry, sibling of `price` -- same, for the
+//     whole set.
+// Unlike grams/qty/price above, the key doesn't need to be present on
+// every object -- a missing `comment` is treated exactly like a null
+// one (render.js's buildCommentNote / buildIngredientList), so only
+// add it where there's actually something to say. Nothing else needs
+// to change.
 var ROLLS = [
   {
     "id": "r001",
@@ -33,9 +51,9 @@ var ROLLS = [
       { "name": "Ser Philadelphia", "grams": 30, "qty": null },
       { "name": "Mango", "grams": 20, "qty": null },
       { "name": "Awokado", "grams": 50, "qty": null },
-      { "name": "Krewetka tygrysowa", "grams": 35, "qty": null },
+      { "name": "Krewetka tygrysowa", "grams": 35, "qty": null }, 
       { "name": "Sos unagi", "grams": 15, "qty": null },
-      { "name": "Sezam", "grams": null, "qty": null }
+      { "name": "Sezam", "grams": null, "qty": null, "comment": "Покрите" }
     ],
     "weightGrams": 290,
     "needsSauce": true,
@@ -103,18 +121,19 @@ var ROLLS = [
     "name": "Blaze roll",
     "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": 1 },
-      { "name": "Ryż", "grams": 140, "qty": null },
-      { "name": "Ser Philadelphia", "grams": 30, "qty": null },
-      { "name": "Węgorz", "grams": 40, "qty": null },
-      { "name": "Ogórek", "grams": 20, "qty": null },
+      { "name": "Nori", "grams": null, "qty": 1, "comment": "В середину" },
+      { "name": "Ryż", "grams": 140, "qty": null, "comment": "В середину" },
+      { "name": "Ser Philadelphia", "grams": 30, "qty": null, "comment": "В середину" },
+      { "name": "Węgorz", "grams": 40, "qty": null, "comment": "В середину" },
+      { "name": "Ogórek", "grams": 20, "qty": null, "comment": "В середину" },
       { "name": "Ser Gouda", "grams": 40, "qty": null },
       { "name": "Majonez japonski", "grams": 20, "qty": null },
-      { "name": "Sos unagi", "grams": 10, "qty": null }
+      { "name": "Sos unagi", "grams": 10, "qty": null, "comment": "Поливаємо" }
     ],
     "weightGrams": 300,
     "needsSauce": true,
     "price": 43,
+      "comment": "Шапочка: Сирний заміс 60",
     "image": "images/r005.webp"
   },
   {
@@ -265,7 +284,7 @@ var ROLLS = [
       { "name": "Ryż", "grams": 140, "qty": null },
       { "name": "Ogórek", "grams": 30, "qty": null },
       { "name": "Awokado", "grams": 20, "qty": null },
-      { "name": "Masago(na wierzchu)", "grams": 20, "qty": null },
+      { "name": "Masago", "grams": 20, "qty": null, "comment": "На горі" },
       { "name": "Filet z łososia", "grams": 35, "qty": null },
       { "name": "Majonez japoński", "grams": 10, "qty": null }
     ],
@@ -428,7 +447,7 @@ var ROLLS = [
       { "name": "Nori", "grams": null, "qty": 0.5 },
       { "name": "Ryż", "grams": 140, "qty": null },
       { "name": "Ser Philadelphia", "grams": 20, "qty": null },
-      { "name": "Surimi (do środka)", "grams": 50, "qty": null },
+      { "name": "Surimi", "grams": 50, "qty": null, "comment": "В середину" },
       { "name": "Sezam biały", "grams": 15, "qty": null },
       { "name": "Łosoś surowy", "grams": 20, "qty": null },
       { "name": "Krewetka gotowana", "grams": 40, "qty": null },
@@ -514,6 +533,7 @@ var ROLLS = [
     "weightGrams": 311,
     "needsSauce": true,
     "price": 58,
+      "comment": "Поверх унагі, робимо крапочку спайсі",
     "image": "images/r026.webp"
   },
   {
@@ -616,6 +636,7 @@ var ROLLS = [
     "weightGrams": 270,
     "needsSauce": false,
     "price": 70,
+      "comment": "Ролл без рису, усе скручуємо у норі",
     "image": "images/r032.webp"
   },
   {
@@ -623,11 +644,11 @@ var ROLLS = [
     "name": "Krewetka HOT",
     "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": 0.5 },
-      { "name": "Ryż", "grams": 140, "qty": null },
-      { "name": "Łosoś surowy", "grams": 20, "qty": null },
-      { "name": "Krewetka gotowana", "grams": 30, "qty": null },
-      { "name": "Ser Philadelphia", "grams": 30, "qty": null },
+      { "name": "Nori", "grams": null, "qty": 0.5, "comment": "В середину" },
+      { "name": "Ryż", "grams": 140, "qty": null, "comment": "В середину" },
+      { "name": "Łosoś surowy", "grams": 20, "qty": null, "comment": "В середину" },
+      { "name": "Krewetka gotowana", "grams": 30, "qty": null, "comment": "В середину" },
+      { "name": "Ser Philadelphia", "grams": 30, "qty": null, "comment": "В середину" },
       { "name": "Ser Gouda", "grams": 40, "qty": null },
       { "name": "Majonez japoński", "grams": 20, "qty": null },
       { "name": "Sos unagi", "grams": 10, "qty": null },
@@ -636,6 +657,7 @@ var ROLLS = [
     "weightGrams": 320,
     "needsSauce": true,
     "price": 51,
+      "comment": "Шапочка: Сирний заміс 60",
     "image": "images/r033.webp"
   },
   {
@@ -671,23 +693,24 @@ var ROLLS = [
     "name": "Kuso roll",
     "count": 1,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": 0.5 },
-      { "name": "Ryż", "grams": 140, "qty": null },
-      { "name": "Ser Philadelphia", "grams": 20, "qty": null },
-      { "name": "Tuńczyk surowy", "grams": 30, "qty": null },
+      { "name": "Nori", "grams": null, "qty": 0.5, "comment": "В середину" },
+      { "name": "Ryż", "grams": 140, "qty": null, "comment": "В середину" },
+      { "name": "Ser Philadelphia", "grams": 20, "qty": null, "comment": "В середину" },
+      { "name": "Tuńczyk surowy", "grams": 30, "qty": null, "comment": "В середину" },
       { "name": "Krewetka gotowana", "grams": 30, "qty": null },
-      { "name": "Awokado", "grams": 20, "qty": null },
-      { "name": "Tykwa marynowana", "grams": 20, "qty": null },
+      { "name": "Awokado", "grams": 20, "qty": null, "comment": "В середину" },
+      { "name": "Tykwa marynowana", "grams": 20, "qty": null, "comment": "В середину" },
       { "name": "Tobikko red", "grams": 5, "qty": null },
       { "name": "Ser Gouda", "grams": 24, "qty": null },
       { "name": "Majonez japoński", "grams": 12, "qty": null },
       { "name": "Sos spicy", "grams": 5, "qty": null },
-      { "name": "Sezam biały", "grams": 15, "qty": null },
-      { "name": "Sos unagi", "grams": 10, "qty": null }
+      { "name": "Sezam biały", "grams": 15, "qty": null, "comment": "Покрите" },
+      { "name": "Sos unagi", "grams": 10, "qty": null, "comment": "Поливаємо" }
     ],
     "weightGrams": 330,
     "needsSauce": true,
     "price": 45,
+      "comment": "Шапочка: Сирний заміс 35, Креветка 30, Тобико 5, Спайсі 5",
     "image": "images/r036.webp"
   },
   {
@@ -807,7 +830,7 @@ var ROLLS = [
   },
   {
     "id": "r045",
-    "name": "Mikado roll -- зверху 1 авокадо, 2 лосось, і поливка унагі",
+    "name": "Mikado roll",
     "count": 1,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": 0.75 },
@@ -822,6 +845,7 @@ var ROLLS = [
     "weightGrams": 365,
     "needsSauce": true,
     "price": 63,
+      "comment": "Наверх: 1 слой авокадо, поверх авокадо 2 слой лосось і поливаємо унагі",
     "image": "images/r045.webp"
   },
   {
@@ -901,7 +925,7 @@ var ROLLS = [
   },
   {
     "id": "r051",
-    "name": "Okinava roll -- накриваємо рол манго та угрем, чередуємо пластерами. Унагі поливаємо тільки вугор",
+    "name": "Okinava roll",
     "count": 8,
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": 0.75 },
@@ -911,13 +935,14 @@ var ROLLS = [
       { "name": "Tuńczyk", "grams": 30, "qty": null },
       { "name": "Ogórek", "grams": 20, "qty": null },
       { "name": "Awokado", "grams": 20, "qty": null },
-      { "name": "Węgorz (na górze)", "grams": 30, "qty": null },
-      { "name": "Mango (na górze)", "grams": 30, "qty": null },
+      { "name": "Węgorz", "grams": 30, "qty": null, "comment": "На горі" },
+      { "name": "Mango", "grams": 30, "qty": null, "comment": "На горі" },
       { "name": "Sos unagi", "grams": 10, "qty": null }
     ],
     "weightGrams": 330,
     "needsSauce": true,
     "price": 65,
+      "comment": "Накриваємо ролл манго і вугрем, чередуючи пластерами. Унагі поливаємо тільки вугор",
     "image": "images/r051.webp"
   },
   {
@@ -925,21 +950,22 @@ var ROLLS = [
     "name": "Ovenly roll",
     "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": 0.5 },
-      { "name": "Ryż", "grams": 140, "qty": null },
-      { "name": "Ser Philadelphia", "grams": 20, "qty": null },
-      { "name": "Łosos surowy", "grams": 30, "qty": null },
-      { "name": "Awokado", "grams": 20, "qty": null },
-      { "name": "Tykwa marynowana", "grams": 20, "qty": null },
+      { "name": "Nori", "grams": null, "qty": 0.5, "comment": "В середину" },
+      { "name": "Ryż", "grams": 140, "qty": null, "comment": "В середину" },
+      { "name": "Ser Philadelphia", "grams": 20, "qty": null, "comment": "В середину" },
+      { "name": "Łosos surowy", "grams": 30, "qty": null, "comment": "В середину" },
+      { "name": "Awokado", "grams": 20, "qty": null, "comment": "В середину" },
+      { "name": "Tykwa marynowana", "grams": 20, "qty": null, "comment": "В середину" },
       { "name": "Ser Gouda", "grams": 40, "qty": null },
       { "name": "Majonez japoński", "grams": 20, "qty": null },
-      { "name": "Sezam biały", "grams": 15, "qty": null },
-      { "name": "Sos unagi", "grams": 10, "qty": null },
-      { "name": "Sos spicy", "grams": 5, "qty": null }
+      { "name": "Sezam biały", "grams": 15, "qty": null, "comment": "Покрите" },
+      { "name": "Sos unagi", "grams": 10, "qty": null, "comment": "Поливаємо" },
+      { "name": "Sos spicy", "grams": 5, "qty": null, "comment": "Поливаємо(точки)" }
     ],
     "weightGrams": 320,
     "needsSauce": true,
     "price": 39,
+    "comment": "Шапочка: Сирний заміс 60",
     "image": "images/r052.webp"
   },
   {
@@ -1016,7 +1042,7 @@ var ROLLS = [
       { "name": "Ser Philadelphia", "grams": 40, "qty": null },
       { "name": "Ogórek", "grams": 20, "qty": null },
       { "name": "Awokado", "grams": 20, "qty": null },
-      { "name": "Krewetka(do śródka)", "grams": 40, "qty": null },
+      { "name": "Krewetka", "grams": 40, "qty": null, "comment": "В середину" },
       { "name": "Krewetka tygrysia", "grams": 60, "qty": null }
     ],
     "weightGrams": 310,
@@ -1206,8 +1232,8 @@ var ROLLS = [
       { "name": "Nori", "grams": null, "qty": 0.5 },
       { "name": "Ryż", "grams": 140, "qty": null },
       { "name": "Ser Philadelphia", "grams": 30, "qty": null },
-      { "name": "Łosoś surowy (na górze)", "grams": 90, "qty": null },
-      { "name": "Łosoś pieczony (do śródka)", "grams": 45, "qty": null },
+      { "name": "Łosoś surowy", "grams": 90, "qty": null, "comment": "На горі" },
+      { "name": "Łosoś pieczony", "grams": 45, "qty": null, "comment": "В середину" },
       { "name": "Awokado", "grams": 20, "qty": null },
       { "name": "Unagi", "grams": 15, "qty": null }
     ],
@@ -1223,7 +1249,7 @@ var ROLLS = [
     "ingredients": [
       { "name": "Nori", "grams": null, "qty": 0.5 },
       { "name": "Ryż", "grams": 240, "qty": null },
-      { "name": "Łosoś surowy (na górze)", "grams": 90, "qty": null },
+      { "name": "Łosoś surowy", "grams": 90, "qty": null, "comment": "На горі" },
       { "name": "Krewetka", "grams": 30, "qty": null },
         { "name": "Serek", "grams": 20, "qty": null },
       { "name": "Łosoś wędzony", "grams": 20, "qty": null },
@@ -1242,7 +1268,7 @@ var ROLLS = [
       { "name": "Nori", "grams": null, "qty": 0.5 },
       { "name": "Ryż", "grams": 140, "qty": null },
       { "name": "Awokado", "grams": 40, "qty": null },
-      { "name": "Węgorz (na górze)", "grams": 90, "qty": null },
+      { "name": "Węgorz", "grams": 90, "qty": null, "comment": "На горі" },
       { "name": "Tykwa marynowana", "grams": 20, "qty": null },
       { "name": "Łosoś surowy", "grams": 40, "qty": null },
       { "name": "Unagi", "grams": 15, "qty": null }
@@ -1325,6 +1351,7 @@ var ROLLS = [
     "weightGrams": 280,
     "needsSauce": false,
     "price": 43,
+      "comment": "Лайм на горі",
     "image": "images/r074.webp"
   },
   {
@@ -1340,11 +1367,12 @@ var ROLLS = [
       { "name": "Sos unagi", "grams": 15, "qty": null },
       { "name": "Majonez japoński", "grams": 10, "qty": null },
       { "name": "Surimi", "grams": 40, "qty": null },
-      { "name": "Awokado", "grams": 50, "qty": null }
+      { "name": "Awokado", "grams": 50, "qty": null, "comment": "na górze" }
     ],
     "weightGrams": 345,
     "needsSauce": true,
     "price": 63,
+      "comment": "Авокадо на горі, поливаємо унагі",
     "image": "images/r075.webp"
   },
   {
@@ -1471,6 +1499,7 @@ var ROLLS = [
     "weightGrams": 325,
     "needsSauce": true,
     "price": 31,
+      "comment": "Заміс: крабова палочка і пор мілко ріжуться + sriracha і спайсі, перемішуємо і в середину темпури",
     "image": "images/r081.webp"
   },
   {
@@ -1492,6 +1521,7 @@ var ROLLS = [
     "weightGrams": 320,
     "needsSauce": false,
     "price": 41,
+      "comment": "Робимо заміс: лосось + соєвий + пор + трішки srirachi - перемішуємо і поверх темпури",
     "image": "images/r082.webp"
   },
   {
@@ -1525,7 +1555,7 @@ var ROLLS = [
       { "name": "Ryż", "grams": 140, "qty": null },
       { "name": "Ser Philadelphia", "grams": 30, "qty": null },
       { "name": "Awokado", "grams": 30, "qty": null },
-      { "name": "Surimi (do śródka)", "grams": 50, "qty": null },
+      { "name": "Surimi", "grams": 50, "qty": null, "comment": "В середину" },
       { "name": "Łosoś surowy", "grams": 30, "qty": null },
       { "name": "Sezam biały", "grams": 15, "qty": null },
       { "name": "Unagi", "grams": 15, "qty": null }
@@ -1533,6 +1563,7 @@ var ROLLS = [
     "weightGrams": 310,
     "needsSauce": true,
     "price": 42,
+      "comment": "Поверх рола кладем авокадо, а потім лосось, поливаємо унагі і посипаємо трішки білим сезамом",
     "image": "images/r084.webp"
   },
   {
@@ -1540,21 +1571,22 @@ var ROLLS = [
     "name": "Zenvy roll",
     "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": 1 },
-      { "name": "Ryz", "grams": 140, "qty": null },
-      { "name": "Ser Philadelphia", "grams": 30, "qty": null },
-      { "name": "Tykwa marynowana", "grams": 15, "qty": null },
-      { "name": "Awokado", "grams": 20, "qty": null },
-      { "name": "Surimi", "grams": 20, "qty": null },
-      { "name": "Por", "grams": 5, "qty": null },
+      { "name": "Nori", "grams": null, "qty": 1, "comment": "В середину" },
+      { "name": "Ryz", "grams": 140, "qty": null, "comment": "В середину" },
+      { "name": "Ser Philadelphia", "grams": 30, "qty": null, "comment": "В середину"},
+      { "name": "Tykwa marynowana", "grams": 15, "qty": null, "comment": "В середину" },
+      { "name": "Awokado", "grams": 20, "qty": null, "comment": "В середину" },
+      { "name": "Surimi", "grams": 20, "qty": null, "comment": "В середину" },
+      { "name": "Por", "grams": 5, "qty": null, "comment": "В середину" },
       { "name": "Ser Gouda", "grams": 40, "qty": null },
       { "name": "Majonez japoński", "grams": 20, "qty": null },
-      { "name": "Sezam biały", "grams": 5, "qty": null },
-      { "name": "Sos unagi", "grams": 15, "qty": null }
+      { "name": "Sezam biały", "grams": 5, "qty": null, "comment": "Посипаємо" },
+      { "name": "Sos unagi", "grams": 15, "qty": null, "comment": "Поливаємо" }
     ],
     "weightGrams": 310,
     "needsSauce": true,
     "price": 35,
+      "comment": "Шапочка: Сирний заміс 60",
     "image": "images/r085.webp"
   },
   {
