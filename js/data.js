@@ -2168,7 +2168,7 @@ var SETS = [
       },
       {
         "name": "California z pieczonym łososiem",
-        "rollId": "r016",
+        "rollId": null,
         "portion": "full"
       },
       {
