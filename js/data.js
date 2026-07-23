@@ -1636,7 +1636,25 @@ var ROLLS = [
     "needsSauce": true,
     "price": null,
     "image": "images/r090.jpg"
-  }
+  },
+  {
+    "id": "r091",
+    "name": "California z pieczonym łososiem",
+    "count": 8,
+    "ingredients": [
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Sezam czarny", "grams": 15, "qty": null }
+      { "name": "Łosoś smażony", "grams": 35, "qty": null },
+      { "name": "Serek philadelphia", "grams": 30, "qty" null },
+      { "name": "Awokado", "grams": 20, "qty" null }
+    ],
+    "weightGrams": 255,
+    "needsSauce": false,
+    "price": 38,
+    "image": "images/nofile.webp"
+  },
+
 ];
 
 var SETS = [
