@@ -2392,7 +2392,7 @@ var SETS = [
       },
       {
         "name": "Tuńczyk Tar Tar",
-        "rollId": null,
+        "rollId": "r097",
         "portion": "full"
       },
       {
