@@ -28,16 +28,16 @@ var ROLLS = [
     "name": "Awokado roll z krewetką",
     "count": 1,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Mango", "grams": null, "qty": null },
-      { "name": "Awokado", "grams": null, "qty": null },
-      { "name": "Krewetka gotowana", "grams": null, "qty": null },
-      { "name": "Sos unagi", "grams": null, "qty": null },
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 30, "qty": null },
+      { "name": "Mango", "grams": 20, "qty": null },
+      { "name": "Awokado", "grams": 50, "qty": null },
+      { "name": "Krewetka tygrysowa", "grams": 35, "qty": null },
+      { "name": "Sos unagi", "grams": 15, "qty": null },
       { "name": "Sezam", "grams": null, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 290,
     "needsSauce": true,
     "price": 42,
     "image": "images/r001.webp"
@@ -63,18 +63,18 @@ var ROLLS = [
   {
     "id": "r003",
     "name": "Awokado roll z mango",
-    "count": 1,
+    "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Tobiko", "grams": null, "qty": null },
-      { "name": "Awokado", "grams": null, "qty": null },
-      { "name": "Mango", "grams": null, "qty": null },
-      { "name": "Łosoś smażony", "grams": null, "qty": null },
-      { "name": "Sos unagi", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 30, "qty": null },
+      { "name": "Tobiko", "grams": 5, "qty": null },
+      { "name": "Awokado", "grams": 50, "qty": null },
+        { "name": "Łosoś smażony", "grams": 35, "qty": null },
+        { "name": "Sos unagi", "grams": 15, "qty": null },
+      { "name": "Mango", "grams": 20, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 295,
     "needsSauce": true,
     "price": 46,
     "image": "images/r003.webp"
@@ -84,16 +84,16 @@ var ROLLS = [
     "name": "Black Mak Roll",
     "count": 1,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Ogórek", "grams": null, "qty": null },
-      { "name": "Awokado", "grams": null, "qty": null },
-      { "name": "Sezam czarny", "grams": null, "qty": null },
-      { "name": "Łosoś smażony", "grams": null, "qty": null },
-      { "name": "Sos unagi", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 40, "qty": null },
+      { "name": "Ogórek", "grams": 20, "qty": null },
+      { "name": "Awokado", "grams": 20, "qty": null },
+        { "name": "Łosoś smażony", "grams": 40, "qty": null },
+      { "name": "Sezam czarny", "grams": 20, "qty": null },
+      { "name": "Sos unagi", "grams": 10, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 290,
     "needsSauce": true,
     "price": 42,
     "image": "images/r004.webp"
@@ -341,13 +341,13 @@ var ROLLS = [
     "name": "Cheese Roll",
     "count": 1,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Sos unagi", "grams": null, "qty": null },
-      { "name": "Ser Cheddar", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 60, "qty": null },
+      { "name": "Sos unagi", "grams": 25, "qty": null },
+      { "name": "Tostowy ser", "grams": 33, "qty": 2 }
     ],
-    "weightGrams": null,
+    "weightGrams": 248,
     "needsSauce": true,
     "price": 28,
     "image": "images/r018.webp"
@@ -355,17 +355,17 @@ var ROLLS = [
   {
     "id": "r019",
     "name": "Cheese Roll z krewetką tygrysią",
-    "count": 1,
+    "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Ser Cheddar", "grams": null, "qty": null },
-      { "name": "Krewetka gotowana", "grams": null, "qty": null },
-      { "name": "Sos unagi", "grams": null, "qty": null },
-      { "name": "Tobiko", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 40, "qty": null },
+        { "name": "Krewetka tygrysia", "grams": 30, "qty": null },
+        { "name": "Tobiko", "grams": 5, "qty": null },
+        { "name": "Sos unagi", "grams": 15, "qty": null },
+      { "name": "Tostowy ser", "grams": 33, "qty": 2 }
     ],
-    "weightGrams": null,
+    "weightGrams": 263,
     "needsSauce": true,
     "price": 41,
     "image": "images/r019.webp"
@@ -487,19 +487,19 @@ var ROLLS = [
   {
     "id": "r026",
     "name": "Grill Gold Roll",
-    "count": 1,
+    "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Awokado", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Łosoś smażony", "grams": null, "qty": null },
-      { "name": "Sos unagi", "grams": null, "qty": null },
-      { "name": "Łosoś grillowany", "grams": null, "qty": null },
-      { "name": "Pieprz mielony", "grams": null, "qty": null },
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Awokado", "grams": 20, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 30, "qty": null },
+      { "name": "Łosoś smażony", "grams": 45, "qty": null },
+      { "name": "Sos unagi", "grams": 15, "qty": null },
+      { "name": "Łosoś", "grams": 60, "qty": null },
+      { "name": "Pieprz mielony", "grams": 1, "qty": null },
       { "name": "Sos spicy", "grams": null, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 311,
     "needsSauce": true,
     "price": 58,
     "image": "images/r026.webp"
@@ -572,17 +572,17 @@ var ROLLS = [
   {
     "id": "r031",
     "name": "Hico Mak Roll",
-    "count": 1,
+    "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Tuńczyk surowy", "grams": null, "qty": null },
-      { "name": "Serek", "grams": null, "qty": null },
-      { "name": "Ogórek", "grams": null, "qty": null },
-      { "name": "Awokado", "grams": null, "qty": null },
-      { "name": "Sos unagi", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 1 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Tuńczyk surowy", "grams": 35, "qty": null },
+      { "name": "Serek", "grams": 60, "qty": null },
+      { "name": "Ogórek", "grams": 20, "qty": null },
+      { "name": "Awokado", "grams": 20, "qty": null },
+      { "name": "Sos unagi", "grams": 15, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 290,
     "needsSauce": true,
     "price": 41,
     "image": "images/r031.webp"
@@ -797,19 +797,19 @@ var ROLLS = [
   },
   {
     "id": "r045",
-    "name": "Mikado roll",
+    "name": "Mikado roll -- зверху 1 авокадо, 2 лосось, і поливка унагі",
     "count": 1,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Krewetka w tempurze", "grams": null, "qty": null },
-      { "name": "Łosoś surowy", "grams": null, "qty": null },
-      { "name": "Sałata", "grams": null, "qty": null },
-      { "name": "Awokado", "grams": null, "qty": null },
-      { "name": "Sos unagi", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 0.75 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 40, "qty": null },
+      { "name": "Krewetka w tempurze", "grams": 60, "qty": null },
+      { "name": "Łosoś surowy", "grams": 50, "qty": null },
+      { "name": "Sałata", "grams": 10, "qty": null },
+      { "name": "Awokado", "grams": 50, "qty": null },
+      { "name": "Sos unagi", "grams": 15, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 365,
     "needsSauce": true,
     "price": 63,
     "image": "images/r045.webp"
@@ -843,7 +843,7 @@ var ROLLS = [
   },
   {
     "id": "r048",
-    "name": "Nigiri z opalanym łososiem",
+    "name": "Nigiri z pieczonym łososiem",
     "count": 1,
     "ingredients": [
       { "name": "Ryż", "grams": 30, "qty": null },
@@ -891,21 +891,21 @@ var ROLLS = [
   },
   {
     "id": "r051",
-    "name": "Okinava roll",
+    "name": "Okinava roll -- накриваємо рол манго та угрем, чередуємо пластерами. Унагі поливаємо тільки вугор",
     "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Łosoś surowy", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Tuńczyk", "grams": null, "qty": null },
-      { "name": "Ogórek", "grams": null, "qty": null },
-      { "name": "Awokado", "grams": null, "qty": null },
-      { "name": "Węgorz", "grams": null, "qty": null },
-      { "name": "Mango", "grams": null, "qty": null },
-      { "name": "Sos unagi", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 0.75 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Łosoś surowy", "grams": 30, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 20, "qty": null },
+      { "name": "Tuńczyk", "grams": 30, "qty": null },
+      { "name": "Ogórek", "grams": 20, "qty": null },
+      { "name": "Awokado", "grams": 20, "qty": null },
+      { "name": "Węgorz (na górze)", "grams": 30, "qty": null },
+      { "name": "Mango (na górze)", "grams": 30, "qty": null },
+      { "name": "Sos unagi", "grams": 10, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 330,
     "needsSauce": true,
     "price": 65,
     "image": "images/r051.webp"
@@ -937,14 +937,14 @@ var ROLLS = [
     "name": "Philadelphia grill z mango",
     "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Mango", "grams": null, "qty": null },
-      { "name": "Łosoś opalony", "grams": null, "qty": null },
-      { "name": "Cytryna", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 60, "qty": null },
+      { "name": "Mango", "grams": 20, "qty": null },
+      { "name": "Łosoś opalony", "grams": 60, "qty": null },
+      { "name": "Cytryna", "grams": 15, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 295,
     "needsSauce": false,
     "price": 45,
     "image": "images/r053.webp"
@@ -954,12 +954,12 @@ var ROLLS = [
     "name": "Philadelphia klasyczna z łososiem",
     "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Łosoś surowy", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 150, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 60, "qty": null },
+      { "name": "Łosoś surowy", "grams": 100, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 310,
     "needsSauce": false,
     "price": 51,
     "image": "images/r054.webp"
@@ -969,13 +969,13 @@ var ROLLS = [
     "name": "Philadelphia sezam",
     "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Ogórek", "grams": null, "qty": null },
-      { "name": "Sezam", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 60, "qty": null },
+      { "name": "Ogórek", "grams": 20, "qty": null },
+      { "name": "Sezam", "grams": 15, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 235,
     "needsSauce": false,
     "price": 25,
     "image": "images/r055.webp"
@@ -985,13 +985,13 @@ var ROLLS = [
     "name": "Philadelphia z krewetką tygrysią",
     "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Ogórek", "grams": null, "qty": null },
-      { "name": "Krewetka gotowana", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 50, "qty": null },
+      { "name": "Ogórek", "grams": 20, "qty": null },
+      { "name": "Krewetka tygrysia", "grams": 50, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 260,
     "needsSauce": false,
     "price": 43,
     "image": "images/r056.webp"
@@ -1019,13 +1019,13 @@ var ROLLS = [
     "name": "Philadelphia z łososiem",
     "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Ogórek", "grams": null, "qty": null },
-      { "name": "Łosoś surowy", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 50, "qty": null },
+      { "name": "Ogórek", "grams": 20, "qty": null },
+      { "name": "Łosoś surowy", "grams": 60, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 270,
     "needsSauce": false,
     "price": 40,
     "image": "images/r058.webp"
@@ -1035,14 +1035,14 @@ var ROLLS = [
     "name": "Philadelphia z łososiem i surimi",
     "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Awokado", "grams": null, "qty": null },
-      { "name": "Surimi", "grams": null, "qty": null },
-      { "name": "Łosoś surowy", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 30, "qty": null },
+      { "name": "Awokado", "grams": 20, "qty": null },
+      { "name": "Surimi", "grams": 25, "qty": null },
+      { "name": "Łosoś surowy", "grams": 60, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 275,
     "needsSauce": false,
     "price": 40,
     "image": "images/r059.webp"
@@ -1069,14 +1069,14 @@ var ROLLS = [
     "name": "Philadelphia z tuńczykiem",
     "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Ogórek", "grams": null, "qty": null },
-      { "name": "Tuńczyk surowy", "grams": null, "qty": null },
-      { "name": "Sos unagi", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 50, "qty": null },
+      { "name": "Ogórek", "grams": 20, "qty": null },
+      { "name": "Tuńczyk surowy", "grams": 60, "qty": null },
+      { "name": "Sos unagi", "grams": 15, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 285,
     "needsSauce": true,
     "price": 53,
     "image": "images/r061.webp"
@@ -1104,13 +1104,13 @@ var ROLLS = [
     "name": "Philadelphia z wędzonym łososiem",
     "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Ogórek", "grams": null, "qty": null },
-      { "name": "Łosoś wędzony", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 50, "qty": null },
+      { "name": "Ogórek", "grams": 20, "qty": null },
+      { "name": "Łosoś wędzony", "grams": 60, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 270,
     "needsSauce": false,
     "price": 40,
     "image": "images/r063.webp"
@@ -1137,15 +1137,15 @@ var ROLLS = [
     "name": "Philadelphia z węgorzem",
     "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Ogórek", "grams": null, "qty": null },
-      { "name": "Węgorz", "grams": null, "qty": null },
-      { "name": "Sezam", "grams": null, "qty": null },
-      { "name": "Sos unagi", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 50, "qty": null },
+      { "name": "Ogórek", "grams": 20, "qty": null },
+      { "name": "Węgorz", "grams": 60, "qty": null },
+        { "name": "Sos unagi", "grams": 15, "qty": null },
+      { "name": "Sezam", "grams": 5, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 290,
     "needsSauce": true,
     "price": 65,
     "image": "images/r065.webp"
@@ -1174,16 +1174,16 @@ var ROLLS = [
     "name": "Premium Autorski Awokado Roll",
     "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Krewetka gotowana", "grams": null, "qty": null },
-      { "name": "Mango", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Unagi", "grams": null, "qty": null },
-      { "name": "Awokado", "grams": null, "qty": null },
-      { "name": "Sezam", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Krewetka", "grams": 30, "qty": null },
+      { "name": "Mango", "grams": 20, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 30, "qty": null },
+      { "name": "Unagi", "grams": 15, "qty": null },
+      { "name": "Awokado", "grams": 80, "qty": null },
+      { "name": "Sezam czarny", "grams": 5, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 320,
     "needsSauce": true,
     "price": 49,
     "image": "images/r067.webp"
@@ -1193,15 +1193,15 @@ var ROLLS = [
     "name": "Premium Grill Gold Roll",
     "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Łosoś surowy", "grams": null, "qty": null },
-      { "name": "Łosoś grillowany", "grams": null, "qty": null },
-      { "name": "Awokado", "grams": null, "qty": null },
-      { "name": "Unagi", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 30, "qty": null },
+      { "name": "Łosoś surowy (na górze)", "grams": 90, "qty": null },
+      { "name": "Łosoś pieczony (do śródka)", "grams": 45, "qty": null },
+      { "name": "Awokado", "grams": 20, "qty": null },
+      { "name": "Unagi", "grams": 15, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 340,
     "needsSauce": true,
     "price": 70,
     "image": "images/r068.webp"
@@ -1211,15 +1211,15 @@ var ROLLS = [
     "name": "Premium King Roll",
     "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Łosoś surowy", "grams": null, "qty": null },
-      { "name": "Krewetka gotowana", "grams": null, "qty": null },
-      { "name": "Łosoś wędzony", "grams": null, "qty": null },
-      { "name": "Serek", "grams": null, "qty": null },
-      { "name": "Awokado", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 240, "qty": null },
+      { "name": "Łosoś surowy (na górze)", "grams": 90, "qty": null },
+      { "name": "Krewetka", "grams": 30, "qty": null },
+        { "name": "Serek", "grams": 20, "qty": null },
+      { "name": "Łosoś wędzony", "grams": 20, "qty": null },
+      { "name": "Awokado", "grams": 20, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 320,
     "needsSauce": false,
     "price": 66,
     "image": "images/r069.webp"
@@ -1229,15 +1229,15 @@ var ROLLS = [
     "name": "Premium Kioto Roll",
     "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Awokado", "grams": null, "qty": null },
-      { "name": "Węgorz", "grams": null, "qty": null },
-      { "name": "Tykwa marynowana", "grams": null, "qty": null },
-      { "name": "Łosoś surowy", "grams": null, "qty": null },
-      { "name": "Unagi", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Awokado", "grams": 40, "qty": null },
+      { "name": "Węgorz (na górze)", "grams": 90, "qty": null },
+      { "name": "Tykwa marynowana", "grams": 20, "qty": null },
+      { "name": "Łosoś surowy", "grams": 40, "qty": null },
+      { "name": "Unagi", "grams": 15, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 345,
     "needsSauce": true,
     "price": 103,
     "image": "images/r070.webp"
@@ -1247,16 +1247,16 @@ var ROLLS = [
     "name": "Roll Kiboto",
     "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Krewetka gotowana", "grams": null, "qty": null },
-      { "name": "Łosoś surowy", "grams": null, "qty": null },
-      { "name": "Ogórek", "grams": null, "qty": null },
-      { "name": "Tobiko", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Unagi", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Krewetka tygrysia", "grams": 25, "qty": null },
+      { "name": "Łosoś surowy", "grams": 25, "qty": null },
+      { "name": "Ogórek", "grams": 20, "qty": null },
+      { "name": "Tobiko", "grams": 20, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 60, "qty": null },
+      { "name": "Unagi", "grams": 8, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 298,
     "needsSauce": true,
     "price": 46,
     "image": "images/r071.webp"
@@ -1266,16 +1266,16 @@ var ROLLS = [
     "name": "Roll Orange",
     "count": 8,
     "ingredients": [
-      { "name": "Papier sojowy", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Łosoś smażony", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Ogórek", "grams": null, "qty": null },
-      { "name": "Sos unagi", "grams": null, "qty": null },
-      { "name": "Węgorz", "grams": null, "qty": null },
-      { "name": "Awokado", "grams": null, "qty": null }
+      { "name": "Papier sojowy", "grams": null, "qty": 1 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Łosoś smażony", "grams": 35, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 20, "qty": null },
+      { "name": "Ogórek", "grams": 20, "qty": null },
+      { "name": "Sos unagi", "grams": 15, "qty": null },
+      { "name": "Węgorz", "grams": 35, "qty": null },
+      { "name": "Awokado", "grams": 20, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 285,
     "needsSauce": true,
     "price": 66,
     "image": "images/r072.webp"
@@ -1304,15 +1304,15 @@ var ROLLS = [
     "name": "Roll Yakudza",
     "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Tykwa marynowana", "grams": null, "qty": null },
-      { "name": "Łosoś opalony", "grams": null, "qty": null },
-      { "name": "Awokado", "grams": null, "qty": null },
-      { "name": "Limonka", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 40, "qty": null },
+      { "name": "Tykwa marynowana", "grams": 20, "qty": null },
+      { "name": "Łosoś opalony", "grams": 60, "qty": null },
+      { "name": "Awokado", "grams": 20, "qty": null },
+      { "name": "Limonka", "grams": 5, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 280,
     "needsSauce": false,
     "price": 43,
     "image": "images/r074.webp"
@@ -1342,17 +1342,17 @@ var ROLLS = [
     "name": "Spicy Roll",
     "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Ogórek", "grams": null, "qty": null },
-      { "name": "Węgorz", "grams": null, "qty": null },
-      { "name": "Sezam", "grams": null, "qty": null },
-      { "name": "Łosoś grillowany", "grams": null, "qty": null },
-      { "name": "Sriracha", "grams": null, "qty": null },
-      { "name": "Sos unagi", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 30, "qty": null },
+      { "name": "Ogórek", "grams": 30, "qty": null },
+      { "name": "Węgorz", "grams": 20, "qty": null },
+        { "name": "Łosoś smażony", "grams": 50, "qty": null },
+      { "name": "Sezam biały", "grams": 15, "qty": null },
+        { "name": "Sos unagi", "grams": 15, "qty": null },
+      { "name": "Sriracha", "grams": 2, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 302,
     "needsSauce": true,
     "price": 53,
     "image": "images/r076.webp"
@@ -1362,16 +1362,19 @@ var ROLLS = [
     "name": "Tempura Banzai",
     "count": 10,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Tuńczyk pieczony", "grams": null, "qty": null },
-      { "name": "Tykwa marynowana", "grams": null, "qty": null },
-      { "name": "Sriracha", "grams": null, "qty": null },
-      { "name": "Ogórek", "grams": null, "qty": null },
-      { "name": "Awokado", "grams": null, "qty": null },
-      { "name": "Sos unagi", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 1 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Tuńczyk pieczony", "grams": 30, "qty": null },
+      { "name": "Tykwa marynowana", "grams": 15, "qty": null },
+        { "name": "Spicy", "grams": 5, "qty": null },
+        { "name": "Ogórek", "grams": 20, "qty": null },
+      // { "name": "Sriracha", "grams": null, "qty": null },
+      { "name": "Awokado", "grams": 20, "qty": null },
+        { "name": "Panko", "grams": 30, "qty": null },
+        { "name": "Tempura", "grams": 30, "qty": null },
+      { "name": "Sos unagi", "grams": 10, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 300,
     "needsSauce": true,
     "price": 41,
     "image": "images/r077.webp"
@@ -1381,15 +1384,17 @@ var ROLLS = [
     "name": "Tempura cheese",
     "count": 10,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ser Cheddar", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Ser Gouda", "grams": null, "qty": null },
-      { "name": "Tykwa marynowana", "grams": null, "qty": null },
-      { "name": "Sos unagi", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 1 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+        { "name": "Tykwa marynowana", "grams": 15, "qty": null },
+      { "name": "Ser tostowy", "grams": 35, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 30, "qty": null },
+      { "name": "Ser twardy", "grams": 40, "qty": null },
+      { "name": "Sos unagi", "grams": 10, "qty": null },
+        { "name": "Panko", "grams": 30, "qty": null },
+        { "name": "Tempura", "grams": 30, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 330,
     "needsSauce": true,
     "price": 32,
     "image": "images/r078.webp"
@@ -1399,16 +1404,18 @@ var ROLLS = [
     "name": "Tempura Ebi",
     "count": 10,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Ogórek", "grams": null, "qty": null },
-      { "name": "Krewetka gotowana", "grams": null, "qty": null },
-      { "name": "Mango", "grams": null, "qty": null },
-      { "name": "Sos unagi", "grams": null, "qty": null },
-      { "name": "Spicy sos", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 1 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 30, "qty": null },
+      { "name": "Ogórek", "grams": 20, "qty": null },
+      { "name": "Krewetka gotowana", "grams": 30, "qty": null },
+      { "name": "Mango", "grams": 20, "qty": null },
+      { "name": "Spicy sos", "grams": 5, "qty": null },
+        { "name": "Panko", "grams": 30, "qty": null },
+        { "name": "Tempura", "grams": 30, "qty": null },
+        { "name": "Sos unagi", "grams": null, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 305,
     "needsSauce": true,
     "price": 37,
     "image": "images/r079.webp"
@@ -1418,18 +1425,20 @@ var ROLLS = [
     "name": "Tempura mieszana",
     "count": 10,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Ogórek", "grams": null, "qty": null },
-      { "name": "Awokado", "grams": null, "qty": null },
-      { "name": "Tykwa marynowana", "grams": null, "qty": null },
-      { "name": "Łosoś", "grams": null, "qty": null },
-      { "name": "Surimi", "grams": null, "qty": null },
-      { "name": "Tobiko", "grams": null, "qty": null },
-      { "name": "Sos unagi", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 1 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 30, "qty": null },
+      { "name": "Ogórek", "grams": 20, "qty": null },
+      { "name": "Awokado", "grams": 20, "qty": null },
+      { "name": "Tykwa marynowana", "grams": 15, "qty": null },
+      { "name": "Łosoś", "grams": 15, "qty": null },
+      { "name": "Surimi", "grams": 25, "qty": null },
+        { "name": "Tobiko", "grams": 10, "qty": null },
+        { "name": "Panko", "grams": 30, "qty": null },
+        { "name": "Tempura", "grams": 30, "qty": null },
+      { "name": "Sos unagi", "grams": 10, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 345,
     "needsSauce": true,
     "price": 41,
     "image": "images/r080.webp"
@@ -1439,15 +1448,17 @@ var ROLLS = [
     "name": "Tempura Surimi",
     "count": 10,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Surimi", "grams": null, "qty": null },
-      { "name": "Por", "grams": null, "qty": null },
-      { "name": "Majonez japoński", "grams": null, "qty": null },
-      { "name": "Sriracha", "grams": null, "qty": null },
-      { "name": "Sos unagi", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 1 },
+        { "name": "Surimi", "grams": 80, "qty": null },
+        { "name": "Por", "grams": 15, "qty": null },
+        { "name": "Spicy", "grams": 15, "qty": null },
+        { "name": "Sriracha", "grams": 5, "qty": null },
+        { "name": "Sos unagi", "grams": 10, "qty": null },
+      { "name": "Ryż", "grams": 140, "qty": null },
+        { "name": "Panko", "grams": 30, "qty": null },
+        { "name": "Tempura", "grams": 30, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 325,
     "needsSauce": true,
     "price": 31,
     "image": "images/r081.webp"
@@ -1457,16 +1468,18 @@ var ROLLS = [
     "name": "Tempura tatar z łososia",
     "count": 10,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ogórek", "grams": null, "qty": null },
-      { "name": "Tykwa marynowana", "grams": null, "qty": null },
-      { "name": "Oshinko", "grams": null, "qty": null },
-      { "name": "Surowy łosoś", "grams": null, "qty": null },
-      { "name": "Por", "grams": null, "qty": null },
-      { "name": "Sos sojowy", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 1 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Ogórek", "grams": 15, "qty": null },
+      { "name": "Tykwa marynowana", "grams": 15, "qty": null },
+      { "name": "Oshinko", "grams": 15, "qty": null },
+      { "name": "Surowy łosoś", "grams": 50, "qty": null },
+        { "name": "Sos sojowy", "grams": 10, "qty": null },
+      { "name": "Por", "grams": 15, "qty": null },
+        { "name": "Panko", "grams": 30, "qty": null },
+        { "name": "Tempura", "grams": 30, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 320,
     "needsSauce": false,
     "price": 41,
     "image": "images/r082.webp"
@@ -1476,17 +1489,19 @@ var ROLLS = [
     "name": "Tempura Unagi",
     "count": 10,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Węgorz", "grams": null, "qty": null },
-      { "name": "Awokado", "grams": null, "qty": null },
-      { "name": "Tofu", "grams": null, "qty": null },
-      { "name": "Spicy", "grams": null, "qty": null },
-      { "name": "Unagi", "grams": null, "qty": null },
-      { "name": "Por", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 1 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 30, "qty": null },
+      { "name": "Węgorz", "grams": 40, "qty": null },
+      { "name": "Awokado", "grams": 20, "qty": null },
+      { "name": "Tofu", "grams": 20, "qty": null },
+      { "name": "Spicy", "grams": 15, "qty": null },
+      { "name": "Unagi", "grams": 10, "qty": null },
+      { "name": "Por", "grams": 5, "qty": null },
+        { "name": "Panko", "grams": 30, "qty": null },
+        { "name": "Tempura", "grams": 30, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 340,
     "needsSauce": true,
     "price": 54,
     "image": "images/r083.webp"
@@ -1496,16 +1511,16 @@ var ROLLS = [
     "name": "Yami Roll",
     "count": 8,
     "ingredients": [
-      { "name": "Nori", "grams": null, "qty": null },
-      { "name": "Ryż", "grams": null, "qty": null },
-      { "name": "Ser Philadelphia", "grams": null, "qty": null },
-      { "name": "Awokado", "grams": null, "qty": null },
-      { "name": "Surimi", "grams": null, "qty": null },
-      { "name": "Łosoś surowy", "grams": null, "qty": null },
-      { "name": "Sezam biały", "grams": null, "qty": null },
-      { "name": "Unagi", "grams": null, "qty": null }
+      { "name": "Nori", "grams": null, "qty": 0.5 },
+      { "name": "Ryż", "grams": 140, "qty": null },
+      { "name": "Ser Philadelphia", "grams": 30, "qty": null },
+      { "name": "Awokado", "grams": 30, "qty": null },
+      { "name": "Surimi (do śródka)", "grams": 50, "qty": null },
+      { "name": "Łosoś surowy", "grams": 30, "qty": null },
+      { "name": "Sezam biały", "grams": 15, "qty": null },
+      { "name": "Unagi", "grams": 15, "qty": null }
     ],
-    "weightGrams": null,
+    "weightGrams": 310,
     "needsSauce": true,
     "price": 42,
     "image": "images/r084.webp"
@@ -1653,9 +1668,94 @@ var ROLLS = [
     "needsSauce": false,
     "price": null,
     "image": "images/nofile.jpeg"
-  }
-
+  },
+  {
+      "id": "r092",
+      "name": "Philadelphia z łososiem i awokado",
+      "count": 8,
+      "ingredients": [
+          { "name": "Nori", "grams": null, "qty": 0.5 },
+          { "name": "Ryż", "grams": 140, "qty": null },
+          { "name": "Serek philadelphia", "grams": 50, "qty": null },
+          { "name": "Awokado", "grams": 20, "qty": null },
+          { "name": "Łosoś surowy", "grams": 60, "qty": null }
+      ],
+      "weightGrams": 270,
+      "needsSauce": false,
+      "price": null,
+      "image": "images/nofile.jpeg"
+  },
+  {
+      "id": "r093",
+      "name": "Cheese roll z pieczonym łososiem",
+      "count": 8,
+      "ingredients": [
+          { "name": "Nori", "grams": null, "qty": 0.5 },
+          { "name": "Ryż", "grams": 140, "qty": null },
+          { "name": "Serek philadelphia", "grams": 30, "qty": null },
+          { "name": "Sos unagi", "grams": 15, "qty": null },
+          { "name": "Ogórek", "grams": 20, "qty": null },
+          { "name": "Łosoś", "grams": 35, "qty": null },
+          { "name": "Tostowy ser", "grams": 33, "qty": 2 }
+      ],
+      "weightGrams": 273,
+      "needsSauce": true,
+      "price": null,
+      "image": "images/nofile.jpeg"
+  },
+  {
+      "id": "r094",
+      "name": "Pieczone maki z łososiem",
+      "count": 8,
+      "ingredients": [
+          { "name": "Nori", "grams": null, "qty": 0.5 },
+          { "name": "Ryż", "grams": 90, "qty": null },
+          { "name": "Łosoś surowy", "grams": 25, "qty": null },
+          { "name": "Masa na wierzch", "grams": 20, "qty": null },
+          { "name": "Unagi", "grams": 5, "qty": null },
+          { "name": "Sezam", "grams": 5, "qty": null }
+      ],
+      "weightGrams": 145,
+      "needsSauce": true,
+      "price": null,
+      "image": "images/nofile.jpeg"
+  },
+  {
+      "id": "r095",
+      "name": "Pieczone maki z węgorzem",
+      "count": 8,
+      "ingredients": [
+          { "name": "Nori", "grams": null, "qty": 0.5 },
+          { "name": "Ryż", "grams": 90, "qty": null },
+          { "name": "Węgorz", "grams": 25, "qty": null },
+          { "name": "Masa na wierzch", "grams": 20, "qty": null },
+          { "name": "Unagi", "grams": 5, "qty": null },
+          { "name": "Sezam", "grams": 5, "qty": null }
+      ],
+      "weightGrams": 145,
+      "needsSauce": true,
+      "price": null,
+      "image": "images/nofile.jpeg"
+  },
+ {
+      "id": "r096",
+      "name": "Pieczone maki z krewetką",
+      "count": 8,
+      "ingredients": [
+          { "name": "Nori", "grams": null, "qty": 0.5 },
+          { "name": "Ryż", "grams": 90, "qty": null },
+          { "name": "Krewetka gotowana", "grams": 25, "qty": null },
+          { "name": "Masa na wierzch", "grams": 20, "qty": null },
+          { "name": "Unagi", "grams": 5, "qty": null },
+          { "name": "Sezam", "grams": 5, "qty": null }
+      ],
+      "weightGrams": 145,
+      "needsSauce": true,
+      "price": null,
+      "image": "images/nofile.jpeg"
+  },
 ];
+
 
 var SETS = [
   {
@@ -1743,7 +1843,7 @@ var SETS = [
       },
       {
         "name": "Cheese roll z pieczonym łososiem",
-        "rollId": null,
+        "rollId": "r093",
         "portion": "full"
       },
       {
@@ -1816,7 +1916,7 @@ var SETS = [
       },
       {
         "name": "Cheese roll z pieczonym łososiem",
-        "rollId": null,
+        "rollId": "r093",
         "portion": "full"
       }
     ],
@@ -1840,7 +1940,7 @@ var SETS = [
       },
       {
         "name": "Cheese roll z pieczonym łososiem",
-        "rollId": null,
+        "rollId": "r093",
         "portion": "full"
       },
       {
@@ -2438,22 +2538,22 @@ var SETS = [
   },
   {
     "id": "s024",
-    "name": "Zestaw zapiekanych maków",
+    "name": "Zestaw zapiekanych maków -- masa: majo 200g, sriraca 30g, czerwona papryka słodka mielona 5g",
     "count": null,
     "items": [
       {
         "name": "pieczone maki z łososiem",
-        "rollId": null,
+        "rollId": "r094",
         "portion": "full"
       },
       {
         "name": "pieczone maki z węgorzem",
-        "rollId": null,
+        "rollId": "r095",
         "portion": "full"
       },
       {
         "name": "pieczone maki z krewetką",
-        "rollId": null,
+        "rollId": "r096",
         "portion": "full"
       }
     ],
