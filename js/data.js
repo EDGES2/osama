@@ -133,7 +133,7 @@ var ROLLS = [
     "weightGrams": 300,
     "needsSauce": true,
     "price": 43,
-      "comment": "Шапочка: Сирний заміс 60",
+    "comment": "Шапочка: Сирний заміс 60",
     "image": "images/r005.webp"
   },
   {
@@ -657,7 +657,7 @@ var ROLLS = [
     "weightGrams": 320,
     "needsSauce": true,
     "price": 51,
-      "comment": "Шапочка: Сирний заміс 60",
+    "comment": "Шапочка: Сирний заміс 60, Сирний заміс: Сир гауда 100, майонез японск 50",
     "image": "images/r033.webp"
   },
   {
@@ -710,7 +710,7 @@ var ROLLS = [
     "weightGrams": 330,
     "needsSauce": true,
     "price": 45,
-      "comment": "Шапочка: Сирний заміс 35, Креветка 30, Тобико 5, Спайсі 5",
+    "comment": "Шапочка: Сирний заміс 35 (Сирний заміс: Сир гауда 100, Майонез японський 50), Креветка 30, Тобико 5, Спайсі 5",
     "image": "images/r036.webp"
   },
   {
@@ -965,7 +965,7 @@ var ROLLS = [
     "weightGrams": 320,
     "needsSauce": true,
     "price": 39,
-    "comment": "Шапочка: Сирний заміс 60",
+    "comment": "Шапочка: Сирний заміс 60, Сирний заміс: Сир гауда 100, майонез японск 50",
     "image": "images/r052.webp"
   },
   {
@@ -1586,7 +1586,7 @@ var ROLLS = [
     "weightGrams": 310,
     "needsSauce": true,
     "price": 35,
-      "comment": "Шапочка: Сирний заміс 60",
+    "comment": "Шапочка: Сирний заміс 60, Сирний заміс: Сир гауда 100, майонез японск 50",
     "image": "images/r085.webp"
   },
   {
