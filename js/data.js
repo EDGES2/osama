@@ -2598,7 +2598,7 @@ var SETS = [
   },
   {
     "id": "s024",
-    "name": "Zestaw zapiekanych maków -- masa: majo 200g, sriraca 30g, czerwona papryka słodka mielona 5g",
+    "name": "Zestaw zapiekanych maków",
     "count": null,
     "items": [
       {
@@ -2618,6 +2618,7 @@ var SETS = [
       }
     ],
     "price": 68,
+    "comment": "masa: majo 200g, sriraca 30g, czerwona papryka słodka mielona 5g",
     "image": "images/s024.webp"
   }
 ];
